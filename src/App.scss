@@ -9,14 +9,16 @@
 	border-radius: 50%;
 }
 .box {
+	font-family: Inconsolata, monospace;
+	font-weight: 700;
 	padding: 200px 200px;
-	font-size: x-large;
+	font-size: 21pt;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	.word {
 		position: relative;
-		margin-left: 3px;
+		margin-left: 10px;
 	}
 	.typedWord {
 		position: absolute;
@@ -28,6 +30,7 @@
 		color: lightslategray;
 	}
 	#active {
+		position: relative;
 		width: max-content;
 	}
 	.wrong {
@@ -35,8 +38,13 @@
 	}
 
 	.caret {
+		transition: left 0.1s ease;
+		position: absolute;
 		color: orange;
 		animation: blink 1s ease infinite;
+		span {
+			color: transparent;
+		}
 	}
 	@keyframes blink {
 		0%,

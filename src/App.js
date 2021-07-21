@@ -4,7 +4,7 @@ export default class App extends React.Component {
 	state = {
 		currWord: "",
 		typedWord: "",
-		timer: 0,
+		timer: 60,
 		correctWords: 0,
 		incorrectWords: 0,
 		correctChars: 0,
@@ -216,7 +216,6 @@ export default class App extends React.Component {
 	recordTest = (words, e) => {
 		if (this.timer === null && e.key !== "Tab") {
 			this.setState({ timer: 60 });
-			console.log("timer startging")
 			this.timer = setInterval(() => {
 				this.setState({ timer: this.state.timer - 1 }, () => {
 					if (this.state.timer === 0) {
@@ -279,10 +278,7 @@ export default class App extends React.Component {
 		const words = document.getElementsByClassName("word");
 		this.setState({ currWord: this.words[0] });
 		document.body.onkeyup = (e) => {
-			if (e.key !== "Tab") {
-				this.recordTest(words, e)
-				e.preventDefault()
-			}
+			this.recordTest(words, e)
 		}
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
@@ -314,7 +310,8 @@ export default class App extends React.Component {
 											: ""
 									}
 								>
-									{/* <span class="caret">|</span> */}
+									
+									{this.state.currWord === word ? <span className="caret" style={{left: this.state.typedWord.length * 7}}>|</span> : null }
 									{word.split("").map((char, charId) => {
 										return (
 											<span key={char + charId}>
