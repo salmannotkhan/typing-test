@@ -4,8 +4,12 @@ export default class App extends React.Component {
 	state = {
 		currWord: "",
 		typedWord: "",
-		timer: 60,
+		timer: 0,
+		correctWords: 0,
+		incorrectWords: 0,
+		correctChars: 0,
 	};
+	timer = null;
 	words = [
 		"the",
 		"be",
@@ -209,46 +213,57 @@ export default class App extends React.Component {
 		"line",
 	];
 
-	componentDidMount() {
-    let correctWords = 0
-    let totalCorrectChar = 0
-    let incorrectWords = 0
-		let timer = setInterval(() => {
-			this.setState({ timer: this.state.timer - 1 }, () => {
-				if (this.state.timer === 0) {
-          clearInterval(timer);
-          alert(`Correct words: ${correctWords}, Incorrect words: ${incorrectWords}, ${totalCorrectChar/5} WPM`)
-        }
-			});
-		}, 1000);
-		const words = document.getElementsByClassName("word");
-		this.setState({ currWord: this.words[0] });
-		document.body.onkeyup = (e) => {
-			let currIdx = this.words.indexOf(this.state.currWord);
-      let currWord = words[currIdx];
+	recordTest = (words, e) => {
+		if (this.timer === null && e.key !== "Tab") {
+			this.setState({ timer: 60 });
+			console.log("timer startging")
+			this.timer = setInterval(() => {
+				this.setState({ timer: this.state.timer - 1 }, () => {
+					if (this.state.timer === 0) {
+						clearInterval(this.timer);
+					}
+				});
+			}, 1000);
+		}
+		let currIdx = this.words.indexOf(this.state.currWord);
+		let currWord = words[currIdx];
+		if (this.state.timer > 0) {
 			if (e.key === " ") {
-        if (this.state.currWord === this.state.typedWord) {
-          currWord.classList.add("right");
-          correctWords++;
-          totalCorrectChar += this.state.currWord.length
-        }
-        else {
-          currWord.classList.add("wrong");
-          incorrectWords++;
-        }
+				if (this.state.currWord === this.state.typedWord) {
+					currWord.classList.add("right");
+					this.setState({
+						correctWords: this.state.correctWords + 1,
+						correctChars:
+							this.state.correctChars +
+							this.state.currWord.length,
+					});
+				} else {
+					currWord.classList.add("wrong");
+					this.setState({
+						incorrectWords: this.state.incorrectWords + 1,
+					});
+				}
 				this.setState({ typedWord: "" });
 				this.setState({
 					currWord: this.words[currIdx + 1],
 				});
 			} else {
 				if (e.key === "Backspace") {
-					this.setState({
-						typedWord: this.state.typedWord.slice(
-							0,
-							this.state.typedWord.length - 1
-						),
-					});
-				} else {
+					if (e.ctrlKey) {
+						this.setState({ typedWord: "" });
+					} else {
+						this.setState({
+							typedWord: this.state.typedWord.slice(
+								0,
+								this.state.typedWord.length - 1
+							),
+						});
+					}
+				} else if (e.key === "Tab") {
+					this.setState({timer: 60})
+					this.timer = null
+				}
+				else if (e.key !== "Control" && e.key !== "Shift") {
 					this.setState({ typedWord: this.state.typedWord + e.key });
 				}
 				if (this.state.currWord.indexOf(this.state.typedWord) !== 0) {
@@ -257,7 +272,26 @@ export default class App extends React.Component {
 					words[currIdx].classList.remove("wrong");
 				}
 			}
-		};
+		}
+	};
+	
+	componentDidMount() {
+		const words = document.getElementsByClassName("word");
+		this.setState({ currWord: this.words[0] });
+		document.body.onkeyup = (e) => {
+			if (e.key !== "Tab") {
+				this.recordTest(words, e)
+				e.preventDefault()
+			}
+		}
+		document.body.onkeydown = (e) => {
+			if (e.key === "Tab") {
+				clearInterval(this.timer)
+				this.timer = null
+				this.setState({timer: 60})
+				e.preventDefault()
+			}
+		}
 	}
 
 	render() {
@@ -267,38 +301,69 @@ export default class App extends React.Component {
 		return (
 			<>
 				<div className="timer">{this.state.timer}</div>
-				<div className="box">
-					{this.words.map((word, idx) => {
-						return (
-							<div
-								key={word + idx}
-								className="word"
-								id={
-									this.state.currWord === word ? "active" : ""
-								}
-							>
-								{/* <span class="caret">|</span> */}
-								{word.split("").map((char, charId) => {
-									return (
-										<span key={char + charId}>{char}</span>
-									);
-								})}
-								{this.state.currWord === word
-									? extraLetters.map((char, charId) => {
-											return (
-												<span
-													key={char + charId}
-													className="wrong"
-												>
-													{char}
-												</span>
-											);
-									  })
-									: null}
-							</div>
-						);
-					})}
-				</div>
+				{this.state.timer !== 0 ? (
+					<div className="box">
+						{this.words.map((word, idx) => {
+							return (
+								<div
+									key={word + idx}
+									className="word"
+									id={
+										this.state.currWord === word
+											? "active"
+											: ""
+									}
+								>
+									{/* <span class="caret">|</span> */}
+									{word.split("").map((char, charId) => {
+										return (
+											<span key={char + charId}>
+												{char}
+											</span>
+										);
+									})}
+									{this.state.currWord === word
+										? extraLetters.map((char, charId) => {
+												return (
+													<span
+														key={char + charId}
+														className="wrong"
+													>
+														{char}
+													</span>
+												);
+										  })
+										: null}
+								</div>
+							);
+						})}
+					</div>
+				) : (
+					<div className="result">
+						<table>
+							<tbody>
+								<tr>
+									<td colSpan="2" align="center">
+										<h1>
+											{this.state.correctChars / 5} WPM
+										</h1>
+									</td>
+								</tr>
+								<tr>
+									<th>Correct Words:</th>
+									<td>{this.state.correctWords}</td>
+								</tr>
+								<tr>
+									<th>Incorrect Words:</th>
+									<td>{this.state.incorrectWords}</td>
+								</tr>
+								<tr>
+									<td colSpan="2" align="center"><button onClick={() => this.setState({timer: 60})}>Restart Test</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				)}
 			</>
 		);
 	}
