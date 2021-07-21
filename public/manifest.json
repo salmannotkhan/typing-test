@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Typing Test",
+  "name": "Typing test in React",
   "icons": [
     {
       "src": "favicon.ico",

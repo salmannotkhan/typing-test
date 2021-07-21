@@ -1,0 +1,53 @@
+.timer {
+	position: relative;
+	left: 50%;
+	top: 10%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: xxx-large;
+	height: 100px;
+	width: 100px;
+	border: 5px solid orange;
+	border-radius: 50%;
+}
+.box {
+	padding: 200px 200px;
+	font-size: x-large;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	.word {
+		position: relative;
+		margin-left: 3px;
+	}
+	.typedWord {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	#active,
+	.right {
+		color: lightslategray;
+	}
+	#active {
+		width: max-content;
+	}
+	.wrong {
+		color: lightsalmon !important;
+	}
+
+	.caret {
+		color: orange;
+		animation: blink 1s ease infinite;
+	}
+	@keyframes blink {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0;
+		}
+	}
+}
