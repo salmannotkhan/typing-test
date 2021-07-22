@@ -4,7 +4,7 @@ export default class App extends React.Component {
 	state = {
 		currWord: "",
 		typedWord: "",
-		timer: 10,
+		timer: 60,
 		correctWords: 0,
 		incorrectWords: 0,
 		correctChars: 0,
@@ -215,7 +215,7 @@ export default class App extends React.Component {
 
 	recordTest = (words, e) => {
 		if (this.timer === null && e.key !== "Tab") {
-			this.setState({ timer: 10 });
+			this.setState({ timer: 60 });
 			this.timer = setInterval(() => {
 				this.setState({ timer: this.state.timer - 1 }, () => {
 					if (this.state.timer === 0) {
