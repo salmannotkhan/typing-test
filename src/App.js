@@ -259,10 +259,9 @@ export default class App extends React.Component {
 						});
 					}
 				} else if (e.key === "Tab") {
-					this.setState({timer: 60})
-					this.timer = null
-				}
-				else if (e.key !== "Control" && e.key !== "Shift") {
+					this.setState({ timer: 60 });
+					this.timer = null;
+				} else if (e.key !== "Control" && e.key !== "Shift") {
 					this.setState({ typedWord: this.state.typedWord + e.key });
 				}
 				if (this.state.currWord.indexOf(this.state.typedWord) !== 0) {
@@ -273,21 +272,32 @@ export default class App extends React.Component {
 			}
 		}
 	};
-	
+
+	resetTest = () => {
+		clearInterval(this.timer);
+		this.timer = null;
+		this.setState({
+			timer: 60,
+			currWord: this.words[0],
+			typedWord: "",
+			correctChars: 0,
+			correctWords: 0,
+			incorrectWords: 0,
+		});
+	};
+
 	componentDidMount() {
 		const words = document.getElementsByClassName("word");
 		this.setState({ currWord: this.words[0] });
 		document.body.onkeyup = (e) => {
-			this.recordTest(words, e)
-		}
+			this.recordTest(words, e);
+		};
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
-				clearInterval(this.timer)
-				this.timer = null
-				this.setState({timer: 60, currWord: this.words[0], typedWord: ""})
-				e.preventDefault()
+				this.resetTest();
+				e.preventDefault();
 			}
-		}
+		};
 	}
 
 	render() {
@@ -310,8 +320,18 @@ export default class App extends React.Component {
 											: ""
 									}
 								>
-									
-									{this.state.currWord === word ? <span className="caret" style={{left: this.state.typedWord.length * 14.5}}>|</span> : null }
+									{this.state.currWord === word ? (
+										<span
+											className="caret"
+											style={{
+												left:
+													this.state.typedWord
+														.length * 14.5,
+											}}
+										>
+											|
+										</span>
+									) : null}
 									{word.split("").map((char, charId) => {
 										return (
 											<span key={char + charId}>
@@ -355,7 +375,13 @@ export default class App extends React.Component {
 									<td>{this.state.incorrectWords}</td>
 								</tr>
 								<tr>
-									<td colSpan="2" align="center"><button onClick={() => {this.timer=null; this.setState({timer: 60, currWord: this.words[0], typedWord: ""})}}>Restart Test</button></td>
+									<td colSpan="2" align="center">
+										<button
+											onClick={() => this.resetTest()}
+										>
+											Restart Test
+										</button>
+									</td>
 								</tr>
 							</tbody>
 						</table>
