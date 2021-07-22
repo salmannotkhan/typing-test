@@ -4,7 +4,7 @@ export default class App extends React.Component {
 	state = {
 		currWord: "",
 		typedWord: "",
-		timer: 60,
+		timer: 10,
 		correctWords: 0,
 		incorrectWords: 0,
 		correctChars: 0,
@@ -215,7 +215,7 @@ export default class App extends React.Component {
 
 	recordTest = (words, e) => {
 		if (this.timer === null && e.key !== "Tab") {
-			this.setState({ timer: 60 });
+			this.setState({ timer: 10 });
 			this.timer = setInterval(() => {
 				this.setState({ timer: this.state.timer - 1 }, () => {
 					if (this.state.timer === 0) {
@@ -284,7 +284,7 @@ export default class App extends React.Component {
 			if (e.key === "Tab") {
 				clearInterval(this.timer)
 				this.timer = null
-				this.setState({timer: 60})
+				this.setState({timer: 60, currWord: this.words[0], typedWord: ""})
 				e.preventDefault()
 			}
 		}
@@ -311,7 +311,7 @@ export default class App extends React.Component {
 									}
 								>
 									
-									{this.state.currWord === word ? <span className="caret" style={{left: this.state.typedWord.length * 7}}>|</span> : null }
+									{this.state.currWord === word ? <span className="caret" style={{left: this.state.typedWord.length * 14.5}}>|</span> : null }
 									{word.split("").map((char, charId) => {
 										return (
 											<span key={char + charId}>
@@ -355,7 +355,7 @@ export default class App extends React.Component {
 									<td>{this.state.incorrectWords}</td>
 								</tr>
 								<tr>
-									<td colSpan="2" align="center"><button onClick={() => this.setState({timer: 60})}>Restart Test</button></td>
+									<td colSpan="2" align="center"><button onClick={() => {this.timer=null; this.setState({timer: 60, currWord: this.words[0], typedWord: ""})}}>Restart Test</button></td>
 								</tr>
 							</tbody>
 						</table>
