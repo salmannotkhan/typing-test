@@ -244,35 +244,43 @@ export default class App extends React.Component {
 								this.state.currWord.length,
 						});
 					}
-					currWord.classList.add(this.state.typedWord === "" ? "wrong" : "right");
+					currWord.classList.add(
+						this.state.typedWord === "" ? "wrong" : "right"
+					);
 					this.setState({
 						typedWord: "",
 						currWord: this.words[currIdx + 1],
 					});
 					break;
-				case "Backspace":	
+				case "Backspace":
 					if (e.ctrlKey) {
 						this.setState({ typedWord: "" });
 						currWord.childNodes.forEach((char) => {
-							char.classList.remove("wrong")
-						})
+							char.classList.remove("wrong");
+						});
 					} else {
-						this.setState({
-							typedWord: this.state.typedWord.slice(
-								0,
-								this.state.typedWord.length - 1
-							),
-						}, () => {
-							let idx = this.state.typedWord.length 
-							if (idx < this.state.currWord.length) currWord.children[idx + 1].classList.remove("wrong")
-						})
+						this.setState(
+							{
+								typedWord: this.state.typedWord.slice(
+									0,
+									this.state.typedWord.length - 1
+								),
+							},
+							() => {
+								let idx = this.state.typedWord.length;
+								if (idx < this.state.currWord.length)
+									currWord.children[idx + 1].classList.remove(
+										"wrong"
+									);
+							}
+						);
 					}
 					break;
 				default:
 					this.setState(
 						{ typedWord: this.state.typedWord + e.key },
 						() => {
-							let idx = this.state.typedWord.length
+							let idx = this.state.typedWord.length;
 							if (
 								this.state.currWord[idx - 1] !==
 								this.state.typedWord[idx - 1]
@@ -287,7 +295,7 @@ export default class App extends React.Component {
 	};
 
 	resetTest = () => {
-		this.render()
+		this.render();
 		clearInterval(this.timer);
 		this.timer = null;
 		this.setState({
@@ -304,7 +312,12 @@ export default class App extends React.Component {
 		const words = document.getElementsByClassName("word");
 		this.setState({ currWord: this.words[0] });
 		document.body.onkeyup = (e) => {
-			if ((e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode === 32 || e.keyCode === 8) this.recordTest(words, e);
+			if (
+				(e.keyCode >= 65 && e.keyCode <= 90) ||
+				e.keyCode === 32 ||
+				e.keyCode === 8
+			)
+				this.recordTest(words, e);
 		};
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
@@ -382,11 +395,17 @@ export default class App extends React.Component {
 								</tr>
 								<tr>
 									<th>Correct Words:</th>
-									<td>{this.state.correctWords} ({this.state.correctChars})</td>
+									<td>
+										{this.state.correctWords} (
+										{this.state.correctChars})
+									</td>
 								</tr>
 								<tr>
 									<th>Incorrect Words:</th>
-									<td>{this.state.incorrectWords} ({this.state.incorrectChars})</td>
+									<td>
+										{this.state.incorrectWords} (
+										{this.state.incorrectChars})
+									</td>
 								</tr>
 								<tr>
 									<td colSpan="2" align="center">
