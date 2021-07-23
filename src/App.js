@@ -246,7 +246,9 @@ export default class App extends React.Component {
 						});
 					}
 					currWord.classList.add(
-						this.state.typedWord !== this.state.currWord ? "wrong" : "right"
+						this.state.typedWord !== this.state.currWord
+							? "wrong"
+							: "right"
 					);
 					this.setState({
 						typedWord: "",
@@ -270,9 +272,9 @@ export default class App extends React.Component {
 							() => {
 								let idx = this.state.typedWord.length;
 								if (idx < this.state.currWord.length)
-									currWord.children[idx + 1].classList.remove(
-										"wrong"
-									);
+									currWord.children[
+										idx + 1
+									].classList.remove("wrong");
 							}
 						);
 					}
@@ -287,6 +289,8 @@ export default class App extends React.Component {
 								this.state.typedWord[idx - 1]
 							) {
 								currWord.children[idx].classList.add("wrong");
+							} else {
+								currWord.children[idx].classList.add("right");
 							}
 						}
 					);
@@ -296,7 +300,9 @@ export default class App extends React.Component {
 	};
 
 	resetTest = () => {
-		document.querySelectorAll(".wrong, .right").forEach(el => el.classList.remove("wrong", "right"))
+		document
+			.querySelectorAll(".wrong, .right")
+			.forEach((el) => el.classList.remove("wrong", "right"));
 		clearInterval(this.timer);
 		this.timer = null;
 		this.setState({
@@ -323,7 +329,7 @@ export default class App extends React.Component {
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
 				this.resetTest();
-				words[0].scrollIntoView()
+				words[0].scrollIntoView();
 				e.preventDefault();
 			}
 		};
@@ -335,54 +341,61 @@ export default class App extends React.Component {
 			.split("");
 		return (
 			<>
-				<div className="timer">{this.state.timer}</div>
 				{this.state.timer !== 0 ? (
-					<div className="box">
-						{this.words.map((word, idx) => {
-							return (
-								<div
-									key={word + idx}
-									className="word"
-									id={
-										this.state.currWord === word
-											? "active"
-											: ""
-									}
-								>
-									{this.state.currWord === word ? (
-										<span
-											className="caret"
-											style={{
-												left:
-													this.state.typedWord
-														.length * 14.5,
-											}}
-										>
-											|
-										</span>
-									) : null}
-									{word.split("").map((char, charId) => {
-										return (
-											<span key={char + charId}>
-												{char}
+					<div className="test">
+						<div className="timer">{this.state.timer}</div>
+						<div className="box">
+							{this.words.map((word, idx) => {
+								return (
+									<div
+										key={word + idx}
+										className="word"
+										id={
+											this.state.currWord === word
+												? "active"
+												: ""
+										}
+									>
+										{this.state.currWord === word ? (
+											<span
+												className="caret"
+												style={{
+													left:
+														this.state.typedWord
+															.length * 14.5,
+												}}
+											>
+												|
 											</span>
-										);
-									})}
-									{this.state.currWord === word
-										? extraLetters.map((char, charId) => {
-												return (
-													<span
-														key={char + charId}
-														className="wrong"
-													>
-														{char}
-													</span>
-												);
-										  })
-										: null}
-								</div>
-							);
-						})}
+										) : null}
+										{word.split("").map((char, charId) => {
+											return (
+												<span key={char + charId}>
+													{char}
+												</span>
+											);
+										})}
+										{this.state.currWord === word
+											? extraLetters.map(
+													(char, charId) => {
+														return (
+															<span
+																key={
+																	char +
+																	charId
+																}
+																className="wrong"
+															>
+																{char}
+															</span>
+														);
+													}
+											  )
+											: null}
+									</div>
+								);
+							})}
+						</div>
 					</div>
 				) : (
 					<div className="result">
@@ -391,7 +404,9 @@ export default class App extends React.Component {
 								<tr>
 									<td colSpan="2" align="center">
 										<h1>
-											{this.state.correctChars / 5} WPM
+											{Math.round(
+												this.state.correctChars / 5
+											) + " wpm"}
 										</h1>
 									</td>
 								</tr>
@@ -414,7 +429,7 @@ export default class App extends React.Component {
 										<button
 											onClick={() => this.resetTest()}
 										>
-											Restart Test
+											Restart
 										</button>
 									</td>
 								</tr>

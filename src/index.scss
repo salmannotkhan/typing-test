@@ -1,8 +1,10 @@
+@use 'colors';
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 body {
 	margin: 0;
-	font-family: "Montserrat", sans-serif;
+	font-family: Inconsolata, monospace;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -12,6 +14,18 @@ body {
 	height: 100%;
 	width: 100%;
 	scroll-behavior: smooth;
+	background-color: colors.$bg-color;
+}
+
+button {
+	background-color: colors.$bg-color;
+	color: colors.$fg-color;
+	border: 2px solid colors.$fg-color;
+	padding: 10px;
+	font-size: 21pt;
+	font-family: Inconsolata, monospace;
+	font-weight: 800;
+	margin: 10px;
 }
 
 #root {

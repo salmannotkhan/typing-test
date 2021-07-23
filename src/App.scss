@@ -1,30 +1,27 @@
-.timer {
+@use 'colors';
+
+.test {
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: xxx-large;
-	height: 100px;
-	width: 100px;
-	border: 5px solid orange;
-	border-radius: 50%;
+	flex-direction: column;
+	font-size: 21pt;
+	font-weight: 700;
+	width: 70%;
+}
+
+.timer {
+	margin: 5px;
 }
 .box {
-	font-family: Inconsolata, monospace;
 	overflow: hidden;
-	font-weight: 700;
-	margin: 50px;
-	width: 70%;
-	height: 60px;
-	font-size: 21pt;
+	height: 62px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	.word {
 		position: relative;
-		margin-left: 10px;
+		margin: 2px 5px;
 		&.wrong {
-			color: lightslategray;
-			text-decoration: 2px underline orange;
+			text-decoration: 2px underline colors.$hl-color;
 		}
 	}
 	.typedWord {
@@ -34,21 +31,21 @@
 	}
 	#active,
 	.right {
-		color: lightslategray;
+		color: colors.$fg-color;
 	}
 	#active {
 		position: relative;
 		width: max-content;
 	}
 	span.wrong {
-		color: lightsalmon !important;
+		color: colors.$hl-color !important;
 	}
 
 	.caret {
 		transition: left 0.1s ease;
 		margin-left: -8px;
 		position: absolute;
-		color: orange;
+		color: colors.$hl-color;
 		animation: blink 1s ease infinite;
 		span {
 			color: transparent;
