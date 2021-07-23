@@ -4,6 +4,7 @@
 
 body {
 	margin: 0;
+	color: #292f34;
 	font-family: Inconsolata, monospace;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -26,6 +27,7 @@ button {
 	font-family: Inconsolata, monospace;
 	font-weight: 800;
 	margin: 10px;
+	cursor: pointer;
 }
 
 #root {
