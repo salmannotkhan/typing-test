@@ -227,6 +227,7 @@ export default class App extends React.Component {
 		const currIdx = this.words.indexOf(this.state.currWord);
 		const currWord = words[currIdx];
 		if (this.state.timer > 0) {
+			currWord.scrollIntoView();
 			switch (e.key) {
 				case " ":
 					if (this.state.currWord === this.state.typedWord) {
@@ -245,7 +246,7 @@ export default class App extends React.Component {
 						});
 					}
 					currWord.classList.add(
-						this.state.typedWord === "" ? "wrong" : "right"
+						this.state.typedWord !== this.state.currWord ? "wrong" : "right"
 					);
 					this.setState({
 						typedWord: "",
@@ -295,7 +296,7 @@ export default class App extends React.Component {
 	};
 
 	resetTest = () => {
-		this.render();
+		document.querySelectorAll(".wrong, .right").forEach(el => el.classList.remove("wrong", "right"))
 		clearInterval(this.timer);
 		this.timer = null;
 		this.setState({
@@ -322,6 +323,7 @@ export default class App extends React.Component {
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
 				this.resetTest();
+				words[0].scrollIntoView()
 				e.preventDefault();
 			}
 		};

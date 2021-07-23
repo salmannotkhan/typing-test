@@ -10,9 +10,11 @@
 }
 .box {
 	font-family: Inconsolata, monospace;
+	overflow: hidden;
 	font-weight: 700;
 	margin: 50px;
 	width: 70%;
+	height: 60px;
 	font-size: 21pt;
 	display: flex;
 	flex-wrap: wrap;
@@ -20,6 +22,10 @@
 	.word {
 		position: relative;
 		margin-left: 10px;
+		&.wrong {
+			color: lightslategray;
+			text-decoration: 2px underline orange;
+		}
 	}
 	.typedWord {
 		position: absolute;
@@ -34,7 +40,7 @@
 		position: relative;
 		width: max-content;
 	}
-	.wrong {
+	span.wrong {
 		color: lightsalmon !important;
 	}
 
