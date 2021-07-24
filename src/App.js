@@ -269,7 +269,7 @@ export default class App extends React.Component {
 					if (e.ctrlKey) {
 						this.setState({ typedWord: "" });
 						currWord.childNodes.forEach((char) => {
-							char.classList.remove("wrong");
+							char.classList.remove("wrong", "right");
 						});
 					} else {
 						this.setState(
@@ -283,7 +283,7 @@ export default class App extends React.Component {
 								let idx = this.state.typedWord.length;
 								if (idx < this.state.currWord.length)
 									currWord.children[idx + 1].classList.remove(
-										"wrong"
+										"wrong", "right"
 									);
 							}
 						);
