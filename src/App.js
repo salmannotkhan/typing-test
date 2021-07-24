@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.scss";
+
 export default class App extends React.Component {
 	state = {
 		currWord: "",
@@ -230,6 +231,9 @@ export default class App extends React.Component {
 			currWord.scrollIntoView();
 			switch (e.key) {
 				case " ":
+					if (this.state.typedWord === "") {
+						return
+					}
 					if (this.state.currWord === this.state.typedWord) {
 						this.setState({
 							correctWords: this.state.correctWords + 1,
@@ -318,19 +322,14 @@ export default class App extends React.Component {
 	componentDidMount() {
 		const words = document.getElementsByClassName("word");
 		this.setState({ currWord: this.words[0] });
-		document.body.onkeyup = (e) => {
-			if (
-				(e.keyCode >= 65 && e.keyCode <= 90) ||
-				e.keyCode === 32 ||
-				e.keyCode === 8
-			)
-				this.recordTest(words, e);
-		};
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
 				this.resetTest();
 				words[0].scrollIntoView();
 				e.preventDefault();
+			}
+			else if (e.key !== "Alt" && e.key !== "Control" && e.key !== "Shift"){
+				this.recordTest(words, e);
 			}
 		};
 	}
