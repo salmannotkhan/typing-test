@@ -1,5 +1,3 @@
-@use 'colors';
-
 .test {
 	display: flex;
 	flex-direction: column;
@@ -21,7 +19,7 @@
 		position: relative;
 		margin: 2px 5px;
 		&.wrong {
-			text-decoration: 2px underline colors.$hl-color;
+			text-decoration: 2px underline var(--hl-color);
 		}
 	}
 	.typedWord {
@@ -31,25 +29,22 @@
 	}
 	#active,
 	.right {
-		color: colors.$fg-color;
+		color: var(--fg-color);
 	}
 	#active {
 		position: relative;
 		width: max-content;
 	}
 	span.wrong {
-		color: colors.$hl-color !important;
+		color: var(--hl-color) !important;
 	}
 
 	.caret {
 		transition: left 0.1s ease;
 		margin-left: -8px;
 		position: absolute;
-		color: colors.$hl-color;
+		color: var(--hl-color);
 		animation: blink 1s ease infinite;
-		span {
-			color: transparent;
-		}
 	}
 	@keyframes blink {
 		0%,
