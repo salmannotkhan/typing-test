@@ -1,5 +1,6 @@
 import React from "react";
-import "./App.scss";
+import Result from "./components/Result";
+import Test from "./components/Test";
 
 export default class App extends React.Component {
 	state = {
@@ -281,9 +282,9 @@ export default class App extends React.Component {
 							() => {
 								let idx = this.state.typedWord.length;
 								if (idx < this.state.currWord.length)
-									currWord.children[
-										idx + 1
-									].classList.remove("wrong");
+									currWord.children[idx + 1].classList.remove(
+										"wrong"
+									);
 							}
 						);
 					}
@@ -332,115 +333,27 @@ export default class App extends React.Component {
 				this.resetTest();
 				words[0].scrollIntoView();
 				e.preventDefault();
-			}
-			else if (e.key !== "Alt" && e.key !== "Control" && e.key !== "Shift"){
+			} else if (["Alt", "Control", "Shift"].indexOf(e.key) === -1) {
 				this.recordTest(words, e);
 			}
 		};
 	}
 
 	render() {
-		let extraLetters = this.state.typedWord
-			.slice(this.state.currWord.length)
-			.split("");
 		return (
 			<>
 				{this.state.timer !== 0 ? (
-					<div className="test">
-						<div className="timer">{this.state.timer}</div>
-						<div className="box">
-							{this.words.map((word, idx) => {
-								return (
-									<div
-										key={word + idx}
-										className="word"
-										id={
-											this.state.currWord === word
-												? "active"
-												: ""
-										}
-									>
-										{this.state.currWord === word ? (
-											<span
-												id="caret"
-												className="blink"
-												style={{
-													translate:
-														this.state.typedWord
-															.length * 14.5833,
-												}}
-											>
-												|
-											</span>
-										) : null}
-										{word.split("").map((char, charId) => {
-											return (
-												<span key={char + charId}>
-													{char}
-												</span>
-											);
-										})}
-										{this.state.currWord === word
-											? extraLetters.map(
-													(char, charId) => {
-														return (
-															<span
-																key={
-																	char +
-																	charId
-																}
-																className="wrong"
-															>
-																{char}
-															</span>
-														);
-													}
-											  )
-											: null}
-									</div>
-								);
-							})}
-						</div>
-					</div>
+					<Test
+						words={this.words}
+						currWord={this.state.currWord}
+						typedWord={this.state.typedWord}
+						timer={this.state.timer}
+					/>
 				) : (
-					<div className="result">
-						<table>
-							<tbody>
-								<tr>
-									<td colSpan="2" align="center">
-										<h1>
-											{Math.round(
-												this.state.correctChars / 5
-											) + " wpm"}
-										</h1>
-									</td>
-								</tr>
-								<tr>
-									<th>Correct Words:</th>
-									<td>
-										{this.state.correctWords} (
-										{this.state.correctChars})
-									</td>
-								</tr>
-								<tr>
-									<th>Incorrect Words:</th>
-									<td>
-										{this.state.incorrectWords} (
-										{this.state.incorrectChars})
-									</td>
-								</tr>
-								<tr>
-									<td colSpan="2" align="center">
-										<button
-											onClick={() => this.resetTest()}
-										>
-											Restart
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<Result
+						data={this.state}
+						resetTest={() => this.resetTest()}
+					/>
 				)}
 			</>
 		);
