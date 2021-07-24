@@ -229,6 +229,11 @@ export default class App extends React.Component {
 		const currWord = words[currIdx];
 		if (this.state.timer > 0) {
 			currWord.scrollIntoView();
+			const caret = document.getElementById("caret")
+			caret.classList.remove("blink")
+			setTimeout(() => {
+				caret.classList.add("blink")
+			}, 1000);
 			switch (e.key) {
 				case " ":
 					if (this.state.typedWord === "") {
@@ -357,11 +362,12 @@ export default class App extends React.Component {
 									>
 										{this.state.currWord === word ? (
 											<span
-												className="caret"
+												id="caret"
+												className="blink"
 												style={{
-													left:
+													translate:
 														this.state.typedWord
-															.length * 14.5,
+															.length * 14.5833,
 												}}
 											>
 												|

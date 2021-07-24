@@ -39,12 +39,14 @@
 		color: var(--hl-color) !important;
 	}
 
-	.caret {
-		transition: left 0.1s ease;
-		margin-left: -8px;
+	#caret {
+		transition: translate 0.1s ease;
+		margin-left: -7.29165px;
 		position: absolute;
 		color: var(--hl-color);
-		animation: blink 1s ease infinite;
+		&.blink {
+			animation: blink 1.5s ease infinite;
+		}
 	}
 	@keyframes blink {
 		0%,
