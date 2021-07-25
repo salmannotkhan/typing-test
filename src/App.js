@@ -1,6 +1,7 @@
 import React from "react";
 import Result from "./components/Result";
 import Test from "./components/Test";
+import "./App.scss";
 
 export default class App extends React.Component {
 	state = {
@@ -11,8 +12,8 @@ export default class App extends React.Component {
 		incorrectWords: 0,
 		correctChars: 0,
 		incorrectChars: 0,
+		setTimer: null,
 	};
-	timer = null;
 	words = [
 		"the",
 		"be",
@@ -247,19 +248,24 @@ export default class App extends React.Component {
 			incorrectChars,
 			incorrectWords,
 			timer,
+			setTimer,
 		} = this.state;
-		if (this.timer === null) {
-			this.timer = setInterval(() => {
-				this.setState({ timer: this.state.timer - 1 }, () => {
-					if (this.state.timer === 0) {
-						clearInterval(this.timer);
-					}
-				});
-			}, 1000);
-		}
-		const currIdx = this.words.indexOf(currWord);
-		const currWordEl = document.getElementById("active");
 		if (timer > 0) {
+			if (setTimer === null) {
+				const intervalId = setInterval(() => {
+					this.setState({ timer: this.state.timer - 1 }, () => {
+						if (this.state.timer === 0) {
+							clearInterval(this.state.setTimer);
+							this.setState({ setTimer: null });
+						}
+					});
+				}, 1000);
+				this.setState({
+					setTimer: intervalId,
+				});
+			}
+			const currIdx = this.words.indexOf(currWord);
+			const currWordEl = document.getElementById("active");
 			currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
 			const caret = document.getElementById("caret");
 			caret.classList.remove("blink");
@@ -331,8 +337,7 @@ export default class App extends React.Component {
 			.querySelectorAll(".wrong, .right")
 			.forEach((el) => el.classList.remove("wrong", "right"));
 		this.words = this.words.sort(() => Math.random() - 0.5);
-		clearInterval(this.timer);
-		this.timer = null;
+		clearInterval(this.state.setTimer);
 		this.setState({
 			timer: 60,
 			currWord: this.words[0],
@@ -341,6 +346,7 @@ export default class App extends React.Component {
 			correctWords: 0,
 			incorrectWords: 0,
 			incorrectChars: 0,
+			setTimer: null,
 		});
 	};
 
@@ -363,13 +369,18 @@ export default class App extends React.Component {
 	}
 
 	render() {
+		const { setTimer, timer } = this.state;
 		return (
 			<>
-				{this.state.timer !== 0 ? (
+				<header className={setTimer !== null ? "hidden" : ""}>
+					<a href=".">Cool Title</a>
+				</header>
+				{timer !== 0 ? (
 					<Test
 						words={this.words}
 						currWord={this.state.currWord}
 						typedWord={this.state.typedWord}
+						setTimer={this.state.setTimer}
 						timer={this.state.timer}
 					/>
 				) : (
@@ -378,6 +389,18 @@ export default class App extends React.Component {
 						resetTest={() => this.resetTest()}
 					/>
 				)}
+				<footer className={setTimer !== null ? "hidden" : ""}>
+					<a href="https://www.github.com/salmannotkhan/Typing-Test">
+						<span>&lt;/&gt;</span>
+						github
+					</a>
+					<span>
+						created by{" "}
+						<a href="https://www.github.com/salmannotkhan">
+							@salmannotkhan
+						</a>
+					</span>
+				</footer>
 			</>
 		);
 	}

@@ -3,7 +3,6 @@
 
 body {
 	margin: 0;
-	color: #292f34;
 	font-family: Inconsolata, monospace;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -17,30 +16,49 @@ body {
 }
 
 #root {
-	height: 100%;
 	display: flex;
+	height: 100%;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	--bg-color: black;
-	--fg-color: lightslategray;
+	--font-color: lightslategray;
 	--hl-color: orange;
+	--fg-color: #292f34;
+	color: var(--font-color);
 	background-color: var(--bg-color);
 }
 
 button {
 	background-color: var(--bg-color);
-	color: var(--fg-color);
-	border: 2px solid var(--fg-color);
+	color: var(--font-color);
+	border: 2px solid var(--font-color);
 	padding: 10px;
 	font-size: 21pt;
 	font-family: Inconsolata, monospace;
 	font-weight: 800;
 	margin: 10px;
 	cursor: pointer;
+	&:hover {
+		color: var(--fg-color);
+		border-color: 2px solid var(--fg-color);
+	}
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+a {
+	color: var(--font-color);
+	text-decoration: none;
+	transition: color 0.1s ease;
+	span {
+		font-size: smaller;
+		margin: 2.5px;
+	}
+	&:hover {
+		color: var(--fg-color);
+	}
+}
+
+.hidden {
+	opacity: 0;
+	pointer-events: none;
 }

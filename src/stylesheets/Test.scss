@@ -7,6 +7,8 @@
 }
 .timer {
 	margin: 5px;
+	color: var(--fg-color);
+	cursor: pointer;
 }
 .box {
 	overflow: hidden;
@@ -14,6 +16,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	user-select: none;
 	.word {
 		position: relative;
 		margin: 0px 5px 2px 5px;
