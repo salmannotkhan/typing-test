@@ -216,7 +216,29 @@ export default class App extends React.Component {
 		"line",
 	];
 
-	recordTest = (words, e) => {
+	BLACKLISTED_KEYS = [
+		"Escape",
+		"CapsLock",
+		"Enter",
+		"OS",
+		"Alt",
+		"Control",
+		"Shift",
+		"F1",
+		"F2",
+		"F3",
+		"F4",
+		"F5",
+		"F6",
+		"F7",
+		"F8",
+		"F9",
+		"F10",
+		"F11",
+		"F12",
+	];
+
+	recordTest = (e) => {
 		if (this.timer === null) {
 			this.timer = setInterval(() => {
 				this.setState({ timer: this.state.timer - 1 }, () => {
@@ -227,18 +249,18 @@ export default class App extends React.Component {
 			}, 1000);
 		}
 		const currIdx = this.words.indexOf(this.state.currWord);
-		const currWord = words[currIdx];
+		const currWord = document.getElementById("active");
 		if (this.state.timer > 0) {
-			currWord.scrollIntoView();
-			const caret = document.getElementById("caret")
-			caret.classList.remove("blink")
+			currWord.scrollIntoView({ behavior: "smooth", block: "center" });
+			const caret = document.getElementById("caret");
+			caret.classList.remove("blink");
 			setTimeout(() => {
-				caret.classList.add("blink")
+				caret.classList.add("blink");
 			}, 1000);
 			switch (e.key) {
 				case " ":
 					if (this.state.typedWord === "") {
-						return
+						return;
 					}
 					if (this.state.currWord === this.state.typedWord) {
 						this.setState({
@@ -283,7 +305,8 @@ export default class App extends React.Component {
 								let idx = this.state.typedWord.length;
 								if (idx < this.state.currWord.length)
 									currWord.children[idx + 1].classList.remove(
-										"wrong", "right"
+										"wrong",
+										"right"
 									);
 							}
 						);
@@ -313,6 +336,7 @@ export default class App extends React.Component {
 		document
 			.querySelectorAll(".wrong, .right")
 			.forEach((el) => el.classList.remove("wrong", "right"));
+		this.words = this.words.sort(() => Math.random() - 0.5);
 		clearInterval(this.timer);
 		this.timer = null;
 		this.setState({
@@ -322,21 +346,26 @@ export default class App extends React.Component {
 			correctChars: 0,
 			correctWords: 0,
 			incorrectWords: 0,
+			incorrectChars: 0,
 		});
 	};
 
 	componentDidMount() {
-		const words = document.getElementsByClassName("word");
+		this.words = this.words.sort(() => Math.random() - 0.5);
 		this.setState({ currWord: this.words[0] });
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
 				this.resetTest();
-				words[0].scrollIntoView();
+				document.getElementsByClassName("word")[0].scrollIntoView();
 				e.preventDefault();
-			} else if (["Alt", "Control", "Shift"].indexOf(e.key) === -1) {
-				this.recordTest(words, e);
+			} else if (this.BLACKLISTED_KEYS.indexOf(e.key) === -1) {
+				this.recordTest(e);
 			}
 		};
+	}
+
+	componentWillUnmount() {
+		document.body.onkeydown = null;
 	}
 
 	render() {

@@ -1,35 +1,43 @@
 import React from "react";
-import "../stylesheets/Test.scss"
+import "../stylesheets/Test.scss";
 
 export default class Test extends React.Component {
 	hideTimer = (e) => {
-		e.target.style.opacity = e.target.style.opacity === "0" ? 1 : 0
-	}
+		e.target.style.opacity = e.target.style.opacity === "0" ? 1 : 0;
+	};
 	componentDidMount() {
-		document.getElementsByClassName("word")[0].scrollIntoView()
+		document
+			.getElementsByClassName("word")[0]
+			.scrollIntoView({ behavior: "smooth", block: "center" });
 	}
 	render() {
-		let extraLetters = this.props.typedWord
-			.slice(this.props.currWord.length)
-			.split("");
+		const { typedWord, currWord, timer, words } = this.props;
+		let extraLetters = typedWord.slice(currWord.length).split("");
 		return (
 			<div className="test">
-				<div className="timer" onClick={(e) => {this.hideTimer(e)}}>{this.props.timer}</div>
+				<div
+					className="timer"
+					onClick={(e) => {
+						this.hideTimer(e);
+					}}
+				>
+					{timer}
+				</div>
 				<div className="box">
-					{this.props.words.map((word, idx) => {
+					{words.map((word, idx) => {
 						return (
 							<div
 								key={word + idx}
 								className="word"
+								id={currWord === word ? "active" : ""}
 							>
-								{this.props.currWord === word ? (
+								{currWord === word ? (
 									<span
 										id="caret"
 										className="blink"
 										style={{
 											translate:
-												this.props.typedWord.length *
-												14.5833,
+												typedWord.length * 14.5833,
 										}}
 									>
 										|
@@ -40,7 +48,7 @@ export default class Test extends React.Component {
 										<span key={char + charId}>{char}</span>
 									);
 								})}
-								{this.props.currWord === word
+								{currWord === word
 									? extraLetters.map((char, charId) => {
 											return (
 												<span

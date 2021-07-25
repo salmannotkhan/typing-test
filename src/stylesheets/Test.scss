@@ -3,20 +3,20 @@
 	flex-direction: column;
 	font-size: 21pt;
 	font-weight: 700;
-	width: 70%;
+	width: 50%;
 }
 .timer {
 	margin: 5px;
 }
 .box {
 	overflow: hidden;
-	height: 62px;
+	height: 93px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	.word {
 		position: relative;
-		margin: 2px 5px;
+		margin: 0px 5px 2px 5px;
 		&.wrong {
 			text-decoration: 2px underline var(--hl-color);
 		}
@@ -26,7 +26,6 @@
 		top: 0;
 		left: 0;
 	}
-	#active,
 	.right {
 		color: var(--fg-color);
 	}
