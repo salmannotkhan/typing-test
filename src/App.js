@@ -239,6 +239,15 @@ export default class App extends React.Component {
 	];
 
 	recordTest = (e) => {
+		const {
+			typedWord,
+			currWord,
+			correctChars,
+			correctWords,
+			incorrectChars,
+			incorrectWords,
+			timer,
+		} = this.state;
 		if (this.timer === null) {
 			this.timer = setInterval(() => {
 				this.setState({ timer: this.state.timer - 1 }, () => {
@@ -248,39 +257,31 @@ export default class App extends React.Component {
 				});
 			}, 1000);
 		}
-		const currIdx = this.words.indexOf(this.state.currWord);
-		const currWord = document.getElementById("active");
-		if (this.state.timer > 0) {
-			currWord.scrollIntoView({ behavior: "smooth", block: "center" });
+		const currIdx = this.words.indexOf(currWord);
+		const currWordEl = document.getElementById("active");
+		if (timer > 0) {
+			currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
 			const caret = document.getElementById("caret");
 			caret.classList.remove("blink");
-			setTimeout(() => {
-				caret.classList.add("blink");
-			}, 1000);
+			setTimeout(() => caret.classList.add("blink"), 500);
 			switch (e.key) {
 				case " ":
-					if (this.state.typedWord === "") {
+					if (typedWord === "") {
 						return;
 					}
-					if (this.state.currWord === this.state.typedWord) {
+					if (currWord === typedWord) {
 						this.setState({
-							correctWords: this.state.correctWords + 1,
-							correctChars:
-								this.state.correctChars +
-								this.state.currWord.length,
+							correctWords: correctWords + 1,
+							correctChars: correctChars + currWord.length + 1,
 						});
 					} else {
 						this.setState({
-							incorrectWords: this.state.incorrectWords + 1,
-							incorrectChars:
-								this.state.incorrectChars +
-								this.state.currWord.length,
+							incorrectWords: incorrectWords + 1,
+							incorrectChars: incorrectChars + currWord.length,
 						});
 					}
-					currWord.classList.add(
-						this.state.typedWord !== this.state.currWord
-							? "wrong"
-							: "right"
+					currWordEl.classList.add(
+						typedWord !== currWord ? "wrong" : "right"
 					);
 					this.setState({
 						typedWord: "",
@@ -290,43 +291,36 @@ export default class App extends React.Component {
 				case "Backspace":
 					if (e.ctrlKey) {
 						this.setState({ typedWord: "" });
-						currWord.childNodes.forEach((char) => {
+						currWordEl.childNodes.forEach((char) => {
 							char.classList.remove("wrong", "right");
 						});
 					} else {
 						this.setState(
 							{
-								typedWord: this.state.typedWord.slice(
+								typedWord: typedWord.slice(
 									0,
-									this.state.typedWord.length - 1
+									typedWord.length - 1
 								),
 							},
 							() => {
-								let idx = this.state.typedWord.length;
-								if (idx < this.state.currWord.length)
-									currWord.children[idx + 1].classList.remove(
-										"wrong",
-										"right"
-									);
+								const { typedWord } = this.state;
+								let idx = typedWord.length;
+								if (idx < currWord.length)
+									currWordEl.children[
+										idx + 1
+									].classList.remove("wrong", "right");
 							}
 						);
 					}
 					break;
 				default:
-					this.setState(
-						{ typedWord: this.state.typedWord + e.key },
-						() => {
-							let idx = this.state.typedWord.length;
-							if (
-								this.state.currWord[idx - 1] !==
-								this.state.typedWord[idx - 1]
-							) {
-								currWord.children[idx].classList.add("wrong");
-							} else {
-								currWord.children[idx].classList.add("right");
-							}
-						}
-					);
+					this.setState({ typedWord: typedWord + e.key }, () => {
+						const { typedWord } = this.state;
+						let idx = typedWord.length - 1;
+						currWordEl.children[idx + 1].classList.add(
+							currWord[idx] !== typedWord[idx] ? "wrong" : "right"
+						);
+					});
 					break;
 			}
 		}

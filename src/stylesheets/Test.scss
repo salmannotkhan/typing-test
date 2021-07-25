@@ -43,7 +43,7 @@
 		position: absolute;
 		color: var(--hl-color);
 		&.blink {
-			animation: blink 1.5s ease infinite;
+			animation: blink 1.5s infinite 1s;
 		}
 	}
 	@keyframes blink {
