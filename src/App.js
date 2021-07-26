@@ -356,7 +356,10 @@ export default class App extends React.Component {
 		this.setState({ currWord: this.words[0] });
 		document.body.onkeydown = (e) => {
 			if (e.key === "Tab") {
-				if (this.state.timer < 60 || this.state.setTimer) {
+				if (
+					this.state.timer < this.state.timeLimit ||
+					this.state.setTimer
+				) {
 					this.resetTest();
 					document.getElementsByClassName("word")[0].scrollIntoView();
 				}
@@ -402,7 +405,9 @@ export default class App extends React.Component {
 		return (
 			<>
 				<header className={setTimer !== null ? "hidden" : ""}>
-					<a href=".">Cool Title</a>
+					<a href="." className="brand">
+						typing-test
+					</a>
 					<div className="buttons">
 						{Object.entries(options).map(([option, choices]) => (
 							<div key={option} className={option}>

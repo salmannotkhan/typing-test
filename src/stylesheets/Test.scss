@@ -1,16 +1,17 @@
 .test {
 	display: flex;
 	flex-direction: column;
-	font-size: 21pt;
 	font-weight: 700;
 	width: 50%;
 }
 .timer {
+	font-size: 21pt;
 	margin: 5px;
-	color: var(--fg-color);
+	color: var(--hl-color);
 	cursor: pointer;
 }
 .box {
+	font-size: 21pt;
 	overflow: hidden;
 	height: 93px;
 	display: flex;

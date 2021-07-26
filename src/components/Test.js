@@ -17,8 +17,8 @@ export default class Test extends React.Component {
 			<div className="test">
 				<div
 					className={
-						"timer"
-						// (this.props.setTimer === null ? " hidden" : "")
+						"timer" +
+						(this.props.setTimer === null ? " hidden" : "")
 					}
 					onClick={(e) => {
 						this.hideTimer(e);

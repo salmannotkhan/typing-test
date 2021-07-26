@@ -34,18 +34,17 @@ button {
 	color: var(--font-color);
 	border: 2px solid var(--font-color);
 	padding: 10px;
-	font-size: 21pt;
 	font-family: Inconsolata, monospace;
-	font-weight: 800;
+	font-weight: 700;
 	margin: 10px;
 	cursor: pointer;
 	&.mini {
-		font-weight: normal;
+		font-size: 12pt;
 		border: none;
 		padding: 5px;
 		margin: 0;
 		&.selected {
-			color: var(--fg-color);
+			color: var(--hl-color);
 		}
 	}
 	&:hover {

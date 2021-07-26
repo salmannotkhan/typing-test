@@ -4,18 +4,13 @@ footer {
 	display: flex;
 	width: 50%;
 	justify-content: space-between;
+	font-size: 12pt;
+	font-weight: 700;
 }
 
-header {
+.brand {
 	font-size: 21pt;
-	font-weight: 900;
-	.buttons {
-		&,
-		* {
-			font-size: 12pt;
-			font-weight: normal;
-		}
-	}
+	align-self: center;
 }
 
 .mkbhd {
