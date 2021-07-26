@@ -39,8 +39,7 @@ export default class Test extends React.Component {
 										id="caret"
 										className="blink"
 										style={{
-											translate:
-												typedWord.length * 14.5833,
+											left: typedWord.length * 14.5833,
 										}}
 									>
 										|
