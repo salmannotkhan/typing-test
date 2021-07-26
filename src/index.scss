@@ -48,7 +48,7 @@ button {
 		}
 	}
 	&:hover {
-		color: var(--fg-color);
+		color: var(--hl-color);
 		border-color: 2px solid var(--fg-color);
 	}
 }
@@ -62,7 +62,7 @@ a {
 		margin: 2.5px;
 	}
 	&:hover {
-		color: var(--fg-color);
+		color: var(--hl-color);
 	}
 }
 

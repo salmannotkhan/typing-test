@@ -2,14 +2,6 @@ import React from "react";
 import "../stylesheets/Test.scss";
 
 export default class Test extends React.Component {
-	hideTimer = (e) => {
-		e.target.style.opacity = e.target.style.opacity === "0" ? 1 : 0;
-	};
-	componentDidMount() {
-		document
-			.getElementsByClassName("word")[0]
-			.scrollIntoView({ behavior: "smooth", block: "center" });
-	}
 	render() {
 		const { typedWord, currWord, timer, words } = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");
@@ -20,9 +12,6 @@ export default class Test extends React.Component {
 						"timer" +
 						(this.props.setTimer === null ? " hidden" : "")
 					}
-					onClick={(e) => {
-						this.hideTimer(e);
-					}}
 				>
 					{timer}
 				</div>

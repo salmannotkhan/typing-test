@@ -6,6 +6,11 @@ footer {
 	justify-content: space-between;
 	font-size: 12pt;
 	font-weight: 700;
+	.buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+	}
 }
 
 .brand {
@@ -20,16 +25,30 @@ footer {
 	--fg-color: #444444 !important;
 }
 
-.peachy {
+.coral {
 	--bg-color: #fdd2bf !important;
 	--font-color: #df5e5e !important;
 	--hl-color: #492f10 !important;
 	--fg-color: #e98580 !important;
 }
 
-.beachy {
+.ocean {
 	--bg-color: #dddddd !important;
 	--font-color: #125d98 !important;
 	--hl-color: #f5a962 !important;
 	--fg-color: #3c8dad !important;
+}
+
+.azure {
+	--bg-color: #383e56 !important;
+	--font-color: #eedad1 !important;
+	--hl-color: #f69e7b !important;
+	--fg-color: #d4b5b0 !important;
+}
+
+.forest {
+	--bg-color: #334443 !important;
+	--font-color: #fff8df !important;
+	--hl-color: #c6ffc1 !important;
+	--fg-color: #34656d !important;
 }

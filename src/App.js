@@ -5,7 +5,7 @@ import "./App.scss";
 
 const options = {
 	time: [15, 30, 45, 60],
-	theme: ["default", "mkbhd", "peachy", "beachy"],
+	theme: ["default", "mkbhd", "coral", "ocean", "azure", "forest"],
 };
 
 export default class App extends React.Component {
@@ -223,6 +223,20 @@ export default class App extends React.Component {
 		"line",
 	];
 
+	startTimer = () => {
+		const intervalId = setInterval(() => {
+			this.setState({ timer: this.state.timer - 1 }, () => {
+				if (this.state.timer === 0) {
+					clearInterval(this.state.setTimer);
+					this.setState({ setTimer: null });
+				}
+			});
+		}, 1000);
+		this.setState({
+			setTimer: intervalId,
+		});
+	};
+
 	recordTest = (e) => {
 		const {
 			typedWord,
@@ -232,87 +246,84 @@ export default class App extends React.Component {
 			incorrectChars,
 			incorrectWords,
 			timer,
+			timeLimit,
 			setTimer,
 		} = this.state;
-		if (timer > 0) {
-			if (setTimer === null) {
-				const intervalId = setInterval(() => {
-					this.setState({ timer: this.state.timer - 1 }, () => {
-						if (this.state.timer === 0) {
-							clearInterval(this.state.setTimer);
-							this.setState({ setTimer: null });
-						}
-					});
-				}, 1000);
-				this.setState({
-					setTimer: intervalId,
-				});
-			}
-			const currIdx = this.words.indexOf(currWord);
-			const currWordEl = document.getElementById("active");
-			currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
-			const caret = document.getElementById("caret");
-			caret.classList.remove("blink");
-			setTimeout(() => caret.classList.add("blink"), 500);
-			switch (e.key) {
-				case " ":
-					if (typedWord === "") {
-						return;
-					}
-					if (currWord === typedWord) {
-						this.setState({
-							correctWords: correctWords + 1,
-							correctChars: correctChars + currWord.length,
-						});
-					} else {
-						this.setState({
-							incorrectWords: incorrectWords + 1,
-							incorrectChars: incorrectChars + currWord.length,
-						});
-					}
-					currWordEl.classList.add(
-						typedWord !== currWord ? "wrong" : "right"
-					);
+		if (timer <= 0) {
+			return;
+		}
+		if (setTimer === null && e.key !== "Tab") {
+			this.startTimer();
+		}
+		const currIdx = this.words.indexOf(currWord);
+		const currWordEl = document.getElementById("active");
+		currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
+		const caret = document.getElementById("caret");
+		caret.classList.remove("blink");
+		setTimeout(() => caret.classList.add("blink"), 500);
+		switch (e.key) {
+			case "Tab":
+				if (timer !== timeLimit || setTimer) {
+					this.resetTest();
+					document.getElementsByClassName("word")[0].scrollIntoView();
+				}
+				e.preventDefault();
+				break;
+			case " ":
+				if (typedWord === "") {
+					return;
+				}
+				if (currWord === typedWord) {
 					this.setState({
-						typedWord: "",
-						currWord: this.words[currIdx + 1],
+						correctWords: correctWords + 1,
+						correctChars: correctChars + currWord.length,
 					});
-					break;
-				case "Backspace":
-					if (e.ctrlKey) {
-						this.setState({ typedWord: "" });
-						currWordEl.childNodes.forEach((char) => {
-							char.classList.remove("wrong", "right");
-						});
-					} else {
-						this.setState(
-							{
-								typedWord: typedWord.slice(
-									0,
-									typedWord.length - 1
-								),
-							},
-							() => {
-								const { typedWord } = this.state;
-								let idx = typedWord.length;
-								if (idx < currWord.length)
-									currWordEl.children[
-										idx + 1
-									].classList.remove("wrong", "right");
-							}
-						);
-					}
-					break;
-				default:
-					this.setState({ typedWord: typedWord + e.key }, () => {
-						const { typedWord } = this.state;
-						let idx = typedWord.length - 1;
-						currWordEl.children[idx + 1].classList.add(
-							currWord[idx] !== typedWord[idx] ? "wrong" : "right"
-						);
+				} else {
+					this.setState({
+						incorrectWords: incorrectWords + 1,
+						incorrectChars: incorrectChars + currWord.length,
 					});
-					break;
-			}
+				}
+				currWordEl.classList.add(
+					typedWord !== currWord ? "wrong" : "right"
+				);
+				this.setState({
+					typedWord: "",
+					currWord: this.words[currIdx + 1],
+				});
+				break;
+			case "Backspace":
+				if (e.ctrlKey) {
+					this.setState({ typedWord: "" });
+					currWordEl.childNodes.forEach((char) => {
+						char.classList.remove("wrong", "right");
+					});
+				} else {
+					this.setState(
+						{
+							typedWord: typedWord.slice(0, typedWord.length - 1),
+						},
+						() => {
+							const { typedWord } = this.state;
+							let idx = typedWord.length;
+							if (idx < currWord.length)
+								currWordEl.children[idx + 1].classList.remove(
+									"wrong",
+									"right"
+								);
+						}
+					);
+				}
+				break;
+			default:
+				this.setState({ typedWord: typedWord + e.key }, () => {
+					const { typedWord } = this.state;
+					let idx = typedWord.length - 1;
+					currWordEl.children[idx + 1].classList.add(
+						currWord[idx] !== typedWord[idx] ? "wrong" : "right"
+					);
+				});
+				break;
 		}
 	};
 
@@ -341,7 +352,7 @@ export default class App extends React.Component {
 			`button[value="${time}"], button[value="${theme}"]`
 		);
 		if (theme) {
-			document.getElementById("root").classList.add(theme);
+			document.body.children[1].classList.add(theme);
 		}
 		if (time) {
 			this.setState({
@@ -354,17 +365,12 @@ export default class App extends React.Component {
 		}
 		this.words = this.words.sort(() => Math.random() - 0.5);
 		this.setState({ currWord: this.words[0] });
-		document.body.onkeydown = (e) => {
-			if (e.key === "Tab") {
-				if (
-					this.state.timer < this.state.timeLimit ||
-					this.state.setTimer
-				) {
-					this.resetTest();
-					document.getElementsByClassName("word")[0].scrollIntoView();
-				}
-				e.preventDefault();
-			} else if (e.key.length === 1 || e.key === "Backspace") {
+		window.onkeydown = (e) => {
+			if (
+				e.key.length === 1 ||
+				e.key === "Backspace" ||
+				e.key === "Tab"
+			) {
 				this.recordTest(e);
 			}
 		};
@@ -377,10 +383,8 @@ export default class App extends React.Component {
 	handleOptions = (e) => {
 		switch (e.target.dataset.option) {
 			case "theme":
-				document
-					.getElementById("root")
-					.classList.remove(...options.theme);
-				document.getElementById("root").classList.add(e.target.value);
+				document.body.children[1].classList.remove(...options.theme);
+				document.body.children[1].classList.add(e.target.value);
 				break;
 			case "time":
 				this.setState({
