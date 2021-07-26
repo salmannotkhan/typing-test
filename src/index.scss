@@ -39,6 +39,15 @@ button {
 	font-weight: 800;
 	margin: 10px;
 	cursor: pointer;
+	&.mini {
+		font-weight: normal;
+		border: none;
+		padding: 5px;
+		margin: 0;
+		&.selected {
+			color: var(--fg-color);
+		}
+	}
 	&:hover {
 		color: var(--fg-color);
 		border-color: 2px solid var(--fg-color);

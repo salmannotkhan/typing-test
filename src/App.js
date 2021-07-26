@@ -3,6 +3,8 @@ import Result from "./components/Result";
 import Test from "./components/Test";
 import "./App.scss";
 
+const timerLimits = [15, 30, 45, 60];
+
 export default class App extends React.Component {
 	state = {
 		currWord: "",
@@ -13,6 +15,7 @@ export default class App extends React.Component {
 		correctChars: 0,
 		incorrectChars: 0,
 		setTimer: null,
+		timerLimit: 60,
 	};
 	words = [
 		"the",
@@ -217,28 +220,6 @@ export default class App extends React.Component {
 		"line",
 	];
 
-	BLACKLISTED_KEYS = [
-		"Escape",
-		"CapsLock",
-		"Enter",
-		"OS",
-		"Alt",
-		"Control",
-		"Shift",
-		"F1",
-		"F2",
-		"F3",
-		"F4",
-		"F5",
-		"F6",
-		"F7",
-		"F8",
-		"F9",
-		"F10",
-		"F11",
-		"F12",
-	];
-
 	recordTest = (e) => {
 		const {
 			typedWord,
@@ -339,7 +320,7 @@ export default class App extends React.Component {
 		this.words = this.words.sort(() => Math.random() - 0.5);
 		clearInterval(this.state.setTimer);
 		this.setState({
-			timer: 60,
+			timer: this.state.timerLimit,
 			currWord: this.words[0],
 			typedWord: "",
 			correctChars: 0,
@@ -354,11 +335,12 @@ export default class App extends React.Component {
 		this.words = this.words.sort(() => Math.random() - 0.5);
 		this.setState({ currWord: this.words[0] });
 		document.body.onkeydown = (e) => {
+			console.log(e);
 			if (e.key === "Tab") {
 				this.resetTest();
 				document.getElementsByClassName("word")[0].scrollIntoView();
 				e.preventDefault();
-			} else if (this.BLACKLISTED_KEYS.indexOf(e.key) === -1) {
+			} else if (e.key.length === 1 || e.key === "Backspace") {
 				this.recordTest(e);
 			}
 		};
@@ -368,12 +350,41 @@ export default class App extends React.Component {
 		document.body.onkeydown = null;
 	}
 
+	setTimeLimit = (e) => {
+		this.setState({
+			timer: e.target.dataset.limit,
+			timerLimit: e.target.dataset.limit,
+		});
+		document.querySelectorAll("button.mini").forEach((btn) => {
+			btn.classList.remove("selected");
+		});
+		e.target.classList.add("selected");
+	};
+
 	render() {
 		const { setTimer, timer } = this.state;
 		return (
 			<>
 				<header className={setTimer !== null ? "hidden" : ""}>
 					<a href=".">Cool Title</a>
+					<div className="buttons">
+						time:
+						{timerLimits.map((limit) => (
+							<button
+								className={
+									"mini" +
+									(this.state.timerLimit === limit
+										? " selected"
+										: "")
+								}
+								key={limit}
+								data-limit={limit}
+								onClick={this.setTimeLimit}
+							>
+								{limit}
+							</button>
+						))}
+					</div>
 				</header>
 				{timer !== 0 ? (
 					<Test

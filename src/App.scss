@@ -9,4 +9,11 @@ footer {
 header {
 	font-size: 21pt;
 	font-weight: 900;
+	.buttons {
+		&,
+		* {
+			font-size: 12pt;
+			font-weight: normal;
+		}
+	}
 }

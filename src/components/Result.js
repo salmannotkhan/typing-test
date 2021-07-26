@@ -3,15 +3,24 @@ import "../stylesheets/Result.scss";
 
 export default class Result extends React.Component {
 	render() {
-		const { correctChars, correctWords, incorrectChars, incorrectWords } =
-			this.props.data;
+		const {
+			correctChars,
+			correctWords,
+			incorrectChars,
+			incorrectWords,
+			timerLimit,
+		} = this.props.data;
 		return (
 			<div className="result">
 				<table>
 					<tbody>
 						<tr>
 							<td colSpan="2" align="center">
-								<h1>{Math.round(correctChars / 5) + " wpm"}</h1>
+								<h1>
+									{Math.round(
+										(correctChars * 60) / timerLimit / 5
+									) + " wpm"}
+								</h1>
 							</td>
 						</tr>
 						<tr>
