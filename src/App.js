@@ -3,7 +3,10 @@ import Result from "./components/Result";
 import Test from "./components/Test";
 import "./App.scss";
 
-const timerLimits = [15, 30, 45, 60];
+const options = {
+	time: [15, 30, 45, 60],
+	theme: ["default", "mkbhd", "peachy", "beachy"],
+};
 
 export default class App extends React.Component {
 	state = {
@@ -15,7 +18,7 @@ export default class App extends React.Component {
 		correctChars: 0,
 		incorrectChars: 0,
 		setTimer: null,
-		timerLimit: 60,
+		timeLimit: 60,
 	};
 	words = [
 		"the",
@@ -259,7 +262,7 @@ export default class App extends React.Component {
 					if (currWord === typedWord) {
 						this.setState({
 							correctWords: correctWords + 1,
-							correctChars: correctChars + currWord.length + 1,
+							correctChars: correctChars + currWord.length,
 						});
 					} else {
 						this.setState({
@@ -320,7 +323,7 @@ export default class App extends React.Component {
 		this.words = this.words.sort(() => Math.random() - 0.5);
 		clearInterval(this.state.setTimer);
 		this.setState({
-			timer: this.state.timerLimit,
+			timer: this.state.timeLimit,
 			currWord: this.words[0],
 			typedWord: "",
 			correctChars: 0,
@@ -332,13 +335,31 @@ export default class App extends React.Component {
 	};
 
 	componentDidMount() {
+		const theme = localStorage.getItem("theme");
+		const time = +localStorage.getItem("time");
+		const selected = document.querySelectorAll(
+			`button[value="${time}"], button[value="${theme}"]`
+		);
+		if (theme) {
+			document.getElementById("root").classList.add(theme);
+		}
+		if (time) {
+			this.setState({
+				timer: time,
+				timeLimit: time,
+			});
+		}
+		if (selected) {
+			selected.forEach((el) => el.classList.add("selected"));
+		}
 		this.words = this.words.sort(() => Math.random() - 0.5);
 		this.setState({ currWord: this.words[0] });
 		document.body.onkeydown = (e) => {
-			console.log(e);
 			if (e.key === "Tab") {
-				this.resetTest();
-				document.getElementsByClassName("word")[0].scrollIntoView();
+				if (this.state.timer < 60 || this.state.setTimer) {
+					this.resetTest();
+					document.getElementsByClassName("word")[0].scrollIntoView();
+				}
 				e.preventDefault();
 			} else if (e.key.length === 1 || e.key === "Backspace") {
 				this.recordTest(e);
@@ -350,14 +371,29 @@ export default class App extends React.Component {
 		document.body.onkeydown = null;
 	}
 
-	setTimeLimit = (e) => {
-		this.setState({
-			timer: e.target.dataset.limit,
-			timerLimit: e.target.dataset.limit,
-		});
-		document.querySelectorAll("button.mini").forEach((btn) => {
-			btn.classList.remove("selected");
-		});
+	handleOptions = (e) => {
+		switch (e.target.dataset.option) {
+			case "theme":
+				document
+					.getElementById("root")
+					.classList.remove(...options.theme);
+				document.getElementById("root").classList.add(e.target.value);
+				break;
+			case "time":
+				this.setState({
+					timer: e.target.value,
+					timeLimit: e.target.value,
+				});
+				break;
+			default:
+				break;
+		}
+		localStorage.setItem(e.target.dataset.option, e.target.value);
+		document
+			.querySelectorAll(`.${e.target.dataset.option} button`)
+			.forEach((btn) => {
+				btn.classList.remove("selected");
+			});
 		e.target.classList.add("selected");
 	};
 
@@ -368,21 +404,21 @@ export default class App extends React.Component {
 				<header className={setTimer !== null ? "hidden" : ""}>
 					<a href=".">Cool Title</a>
 					<div className="buttons">
-						time:
-						{timerLimits.map((limit) => (
-							<button
-								className={
-									"mini" +
-									(this.state.timerLimit === limit
-										? " selected"
-										: "")
-								}
-								key={limit}
-								data-limit={limit}
-								onClick={this.setTimeLimit}
-							>
-								{limit}
-							</button>
+						{Object.entries(options).map(([option, choices]) => (
+							<div key={option} className={option}>
+								{option}:
+								{choices.map((choice) => (
+									<button
+										className="mini"
+										key={choice}
+										data-option={option}
+										value={choice}
+										onClick={this.handleOptions}
+									>
+										{choice}
+									</button>
+								))}
+							</div>
 						))}
 					</div>
 				</header>
@@ -397,6 +433,7 @@ export default class App extends React.Component {
 				) : (
 					<Result
 						data={this.state}
+						spaces={this.words.indexOf(this.state.currWord)}
 						resetTest={() => this.resetTest()}
 					/>
 				)}

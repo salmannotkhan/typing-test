@@ -8,7 +8,7 @@ export default class Result extends React.Component {
 			correctWords,
 			incorrectChars,
 			incorrectWords,
-			timerLimit,
+			timeLimit,
 		} = this.props.data;
 		return (
 			<div className="result">
@@ -18,7 +18,10 @@ export default class Result extends React.Component {
 							<td colSpan="2" align="center">
 								<h1>
 									{Math.round(
-										(correctChars * 60) / timerLimit / 5
+										((correctChars + this.props.spaces) *
+											60) /
+											timeLimit /
+											5
 									) + " wpm"}
 								</h1>
 							</td>
