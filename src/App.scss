@@ -4,12 +4,34 @@ footer {
 	display: flex;
 	width: 50%;
 	justify-content: space-between;
+	align-items: center;
 	font-size: 12pt;
 	font-weight: 700;
 	.buttons {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
+	}
+}
+
+.bottom-area {
+	width: 50%;
+	justify-content: center;
+	.hint {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		kbd {
+			background-color: var(--font-color);
+			color: var(--bg-color);
+			padding: 2.5px 5px;
+			margin: 10px;
+			border-radius: 3px;
+			font-size: 9pt;
+		}
+	}
+	footer {
+		width: 100%;
 	}
 }
 

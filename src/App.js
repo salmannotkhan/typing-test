@@ -1,6 +1,7 @@
 import React from "react";
 import Result from "./components/Result";
 import Test from "./components/Test";
+import { words } from "./helpers/words.json";
 import "./App.scss";
 
 const options = {
@@ -9,8 +10,9 @@ const options = {
 };
 
 export default class App extends React.Component {
+	words = words.sort(() => Math.random() - 0.5);
 	state = {
-		currWord: "",
+		currWord: this.words[0],
 		typedWord: "",
 		timer: 60,
 		correctWords: 0,
@@ -20,208 +22,6 @@ export default class App extends React.Component {
 		setTimer: null,
 		timeLimit: 60,
 	};
-	words = [
-		"the",
-		"be",
-		"of",
-		"and",
-		"a",
-		"to",
-		"in",
-		"he",
-		"have",
-		"it",
-		"that",
-		"for",
-		"they",
-		"I",
-		"with",
-		"as",
-		"not",
-		"on",
-		"she",
-		"at",
-		"by",
-		"this",
-		"we",
-		"you",
-		"do",
-		"but",
-		"from",
-		"or",
-		"which",
-		"one",
-		"would",
-		"all",
-		"will",
-		"there",
-		"say",
-		"who",
-		"make",
-		"when",
-		"can",
-		"more",
-		"if",
-		"no",
-		"man",
-		"out",
-		"other",
-		"so",
-		"what",
-		"time",
-		"up",
-		"go",
-		"about",
-		"than",
-		"into",
-		"could",
-		"state",
-		"only",
-		"new",
-		"year",
-		"some",
-		"take",
-		"come",
-		"these",
-		"know",
-		"see",
-		"use",
-		"get",
-		"like",
-		"then",
-		"first",
-		"any",
-		"work",
-		"now",
-		"may",
-		"such",
-		"give",
-		"over",
-		"think",
-		"most",
-		"even",
-		"find",
-		"day",
-		"also",
-		"after",
-		"way",
-		"many",
-		"must",
-		"look",
-		"before",
-		"great",
-		"back",
-		"through",
-		"long",
-		"where",
-		"much",
-		"should",
-		"well",
-		"people",
-		"down",
-		"own",
-		"just",
-		"because",
-		"good",
-		"each",
-		"those",
-		"feel",
-		"seem",
-		"how",
-		"high",
-		"too",
-		"place",
-		"little",
-		"world",
-		"very",
-		"still",
-		"nation",
-		"hand",
-		"old",
-		"life",
-		"tell",
-		"write",
-		"become",
-		"here",
-		"show",
-		"house",
-		"both",
-		"between",
-		"need",
-		"mean",
-		"call",
-		"develop",
-		"under",
-		"last",
-		"right",
-		"move",
-		"thing",
-		"general",
-		"school",
-		"never",
-		"same",
-		"another",
-		"begin",
-		"while",
-		"number",
-		"part",
-		"turn",
-		"real",
-		"leave",
-		"might",
-		"want",
-		"point",
-		"form",
-		"off",
-		"child",
-		"few",
-		"small",
-		"since",
-		"against",
-		"ask",
-		"late",
-		"home",
-		"interest",
-		"large",
-		"person",
-		"end",
-		"open",
-		"public",
-		"follow",
-		"during",
-		"present",
-		"without",
-		"again",
-		"hold",
-		"govern",
-		"around",
-		"possible",
-		"head",
-		"consider",
-		"word",
-		"program",
-		"problem",
-		"however",
-		"lead",
-		"system",
-		"set",
-		"order",
-		"eye",
-		"plan",
-		"run",
-		"keep",
-		"face",
-		"fact",
-		"group",
-		"play",
-		"stand",
-		"increase",
-		"early",
-		"course",
-		"change",
-		"help",
-		"line",
-	];
 
 	startTimer = () => {
 		const intervalId = setInterval(() => {
@@ -249,12 +49,14 @@ export default class App extends React.Component {
 			timeLimit,
 			setTimer,
 		} = this.state;
-		if (timer <= 0) {
+		if (timer === 0) {
+			if (e.key === "Tab") {
+				this.resetTest();
+				e.preventDefault();
+			}
 			return;
 		}
-		if (setTimer === null && e.key !== "Tab") {
-			this.startTimer();
-		}
+		if (setTimer === null && e.key !== "Tab") this.startTimer();
 		const currIdx = this.words.indexOf(currWord);
 		const currWordEl = document.getElementById("active");
 		currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -348,9 +150,6 @@ export default class App extends React.Component {
 	componentDidMount() {
 		const theme = localStorage.getItem("theme");
 		const time = +localStorage.getItem("time");
-		const selected = document.querySelectorAll(
-			`button[value="${time}"], button[value="${theme}"]`
-		);
 		if (theme) {
 			document.body.children[1].classList.add(theme);
 		}
@@ -360,11 +159,12 @@ export default class App extends React.Component {
 				timeLimit: time,
 			});
 		}
-		if (selected) {
-			selected.forEach((el) => el.classList.add("selected"));
-		}
-		this.words = this.words.sort(() => Math.random() - 0.5);
-		this.setState({ currWord: this.words[0] });
+		document
+			.querySelector(`button[value="${theme ? theme : "default"}"]`)
+			.classList.add("selected");
+		document
+			.querySelector(`button[value="${time ? time : 60}"]`)
+			.classList.add("selected");
 		window.onkeydown = (e) => {
 			if (
 				e.key.length === 1 ||
@@ -377,7 +177,7 @@ export default class App extends React.Component {
 	}
 
 	componentWillUnmount() {
-		document.body.onkeydown = null;
+		window.onkeydown = null;
 	}
 
 	handleOptions = (e) => {
@@ -390,6 +190,12 @@ export default class App extends React.Component {
 				this.setState({
 					timer: e.target.value,
 					timeLimit: e.target.value,
+					currWord: this.words[0],
+					typedWord: "",
+					correctWords: 0,
+					correctChars: 0,
+					incorrectWords: 0,
+					incorrectChars: 0,
 				});
 				break;
 			default:
@@ -402,6 +208,7 @@ export default class App extends React.Component {
 				btn.classList.remove("selected");
 			});
 		e.target.classList.add("selected");
+		e.target.blur();
 	};
 
 	render() {
@@ -446,18 +253,27 @@ export default class App extends React.Component {
 						resetTest={() => this.resetTest()}
 					/>
 				)}
-				<footer className={setTimer !== null ? "hidden" : ""}>
-					<a href="https://www.github.com/salmannotkhan/Typing-Test">
-						<span>&lt;/&gt;</span>
-						github
-					</a>
-					<span>
-						created by{" "}
-						<a href="https://www.github.com/salmannotkhan">
-							@salmannotkhan
-						</a>
+				<div
+					className={`bottom-area ${
+						setTimer !== null ? "hidden" : ""
+					}`}
+				>
+					<span className="hint">
+						<kbd>Tab</kbd> to restart test
 					</span>
-				</footer>
+					<footer>
+						<a href="https://www.github.com/salmannotkhan/Typing-Test">
+							<span>&lt;/&gt;</span>
+							github
+						</a>
+						<span>
+							created by{" "}
+							<a href="https://www.github.com/salmannotkhan">
+								@salmannotkhan
+							</a>
+						</span>
+					</footer>
+				</div>
 			</>
 		);
 	}
