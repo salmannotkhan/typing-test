@@ -44,7 +44,7 @@ export default class Test extends React.Component {
 											return (
 												<span
 													key={char + charId}
-													className="wrong"
+													className="wrong extra"
 												>
 													{char}
 												</span>

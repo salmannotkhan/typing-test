@@ -100,10 +100,8 @@ export default class App extends React.Component {
 					typedWord
 						.slice(currWord.length)
 						.split("")
-						.forEach((char, charId) => {
-							currWordEl.innerHTML += `<span key=${
-								char + charId
-							} class="wrong">${char}</span>`;
+						.forEach((char) => {
+							currWordEl.innerHTML += `<span class="wrong extra">${char}</span>`;
 						});
 				}
 				break;

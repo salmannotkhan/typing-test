@@ -39,6 +39,9 @@
 	span.wrong {
 		color: var(--hl-color) !important;
 	}
+	.extra {
+		opacity: 0.6;
+	}
 
 	#caret {
 		transition: left 0.1s ease;
