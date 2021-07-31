@@ -21,6 +21,7 @@ export default class App extends React.Component {
 		incorrectChars: 0,
 		setTimer: null,
 		timeLimit: 60,
+		typedHistory: [],
 	};
 
 	startTimer = () => {
@@ -48,6 +49,7 @@ export default class App extends React.Component {
 			timer,
 			timeLimit,
 			setTimer,
+			typedHistory,
 		} = this.state;
 		if (timer === 0) {
 			if (e.key === "Tab") {
@@ -92,7 +94,18 @@ export default class App extends React.Component {
 				this.setState({
 					typedWord: "",
 					currWord: this.words[currIdx + 1],
+					typedHistory: [...typedHistory, typedWord],
 				});
+				if (typedWord.length > currWord.length) {
+					typedWord
+						.slice(currWord.length)
+						.split("")
+						.forEach((char, charId) => {
+							currWordEl.innerHTML += `<span key=${
+								char + charId
+							} class="wrong">${char}</span>`;
+						});
+				}
 				break;
 			case "Backspace":
 				if (e.ctrlKey) {
