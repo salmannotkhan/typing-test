@@ -1,7 +1,15 @@
 import * as React from "react";
 import "../stylesheets/Test.scss";
 
-export default class Test extends React.Component {
+interface Props {
+	typedWord: string;
+	currWord: string;
+	timer: number;
+	words: string[];
+	setTimer: NodeJS.Timeout | null;
+}
+
+export default class Test extends React.Component<Props> {
 	render() {
 		const { typedWord, currWord, timer, words } = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");

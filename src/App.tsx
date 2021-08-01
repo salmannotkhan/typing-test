@@ -4,7 +4,12 @@ import Test from "./components/Test";
 import { words } from "./helpers/words.json";
 import "./App.scss";
 
-const options = {
+interface Options {
+	time: number[];
+	theme: string[];
+}
+
+const options: Options = {
 	time: [15, 30, 45, 60],
 	theme: ["default", "mkbhd", "coral", "ocean", "azure", "forest"],
 };
@@ -17,12 +22,14 @@ interface State {
 	incorrectWords: number;
 	correctChars: number;
 	incorrectChars: number;
-	setTimer: number;
+	setTimer: NodeJS.Timeout | null;
 	timeLimit: number;
 	typedHistory: string[];
 }
 
-export default class App extends React.Component<State> {
+interface Props {}
+
+export default class App extends React.Component<Props | null, State> {
 	words = words.sort(() => Math.random() - 0.5);
 	state: State = {
 		currWord: this.words[0],
@@ -40,7 +47,7 @@ export default class App extends React.Component<State> {
 	startTimer = () => {
 		const intervalId = setInterval(() => {
 			this.setState({ timer: this.state.timer - 1 }, () => {
-				if (this.state.timer === 0) {
+				if (this.state.timer === 0 && this.state.setTimer) {
 					clearInterval(this.state.setTimer);
 					this.setState({ setTimer: null });
 				}
@@ -74,10 +81,14 @@ export default class App extends React.Component<State> {
 		if (setTimer === null && e.key !== "Tab") this.startTimer();
 		const currIdx = this.words.indexOf(currWord);
 		const currWordEl = document.getElementById("active");
-		currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
+		if (currWordEl) {
+			currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
+		}
 		const caret = document.getElementById("caret");
-		caret.classList.remove("blink");
-		setTimeout(() => caret.classList.add("blink"), 500);
+		if (caret) {
+			caret.classList.remove("blink");
+			setTimeout(() => caret.classList.add("blink"), 500);
+		}
 		switch (e.key) {
 			case "Tab":
 				if (timer !== timeLimit || setTimer) {
@@ -101,29 +112,38 @@ export default class App extends React.Component<State> {
 						incorrectChars: incorrectChars + currWord.length,
 					});
 				}
-				currWordEl.classList.add(
-					typedWord !== currWord ? "wrong" : "right"
-				);
+				if (currWordEl) {
+					currWordEl.classList.add(
+						typedWord !== currWord ? "wrong" : "right"
+					);
+				}
 				this.setState({
 					typedWord: "",
 					currWord: this.words[currIdx + 1],
 					typedHistory: [...typedHistory, typedWord],
 				});
 				if (typedWord.length > currWord.length) {
-					typedWord
-						.slice(currWord.length)
-						.split("")
-						.forEach((char) => {
-							currWordEl.innerHTML += `<span class="wrong extra">${char}</span>`;
-						});
+					if (currWordEl) {
+						typedWord
+							.slice(currWord.length)
+							.split("")
+							.forEach((char) => {
+								currWordEl.innerHTML += `<span class="wrong extra">${char}</span>`;
+							});
+					}
 				}
 				break;
 			case "Backspace":
 				if (e.ctrlKey) {
 					this.setState({ typedWord: "" });
-					currWordEl.childNodes.forEach((char) => {
-						char.classList.remove("wrong", "right");
-					});
+					if (currWordEl) {
+						for (let i = 0; i < currWordEl.children.length; i++) {
+							currWordEl.children[i].classList.remove(
+								"wrong",
+								"right"
+							);
+						}
+					}
 				} else {
 					this.setState(
 						{
@@ -132,7 +152,7 @@ export default class App extends React.Component<State> {
 						() => {
 							const { typedWord } = this.state;
 							let idx = typedWord.length;
-							if (idx < currWord.length)
+							if (idx < currWord.length && currWordEl)
 								currWordEl.children[idx + 1].classList.remove(
 									"wrong",
 									"right"
@@ -145,9 +165,11 @@ export default class App extends React.Component<State> {
 				this.setState({ typedWord: typedWord + e.key }, () => {
 					const { typedWord } = this.state;
 					let idx = typedWord.length - 1;
-					currWordEl.children[idx + 1].classList.add(
-						currWord[idx] !== typedWord[idx] ? "wrong" : "right"
-					);
+					if (currWordEl) {
+						currWordEl.children[idx + 1].classList.add(
+							currWord[idx] !== typedWord[idx] ? "wrong" : "right"
+						);
+					}
 				});
 				break;
 		}
@@ -158,7 +180,9 @@ export default class App extends React.Component<State> {
 			.querySelectorAll(".wrong, .right")
 			.forEach((el) => el.classList.remove("wrong", "right"));
 		this.words = this.words.sort(() => Math.random() - 0.5);
-		clearInterval(this.state.setTimer);
+		if (this.state.setTimer) {
+			clearInterval(this.state.setTimer);
+		}
 		this.setState({
 			timer: this.state.timeLimit,
 			currWord: this.words[0],
@@ -172,8 +196,8 @@ export default class App extends React.Component<State> {
 	};
 
 	componentDidMount() {
-		const theme = localStorage.getItem("theme");
-		const time = +localStorage.getItem("time");
+		const theme = localStorage.getItem("theme") || "default";
+		const time = parseInt(localStorage.getItem("time") || "60");
 		if (theme) {
 			document.body.children[1].classList.add(theme);
 		}
@@ -183,12 +207,12 @@ export default class App extends React.Component<State> {
 				timeLimit: time,
 			});
 		}
-		document
-			.querySelector(`button[value="${theme ? theme : "default"}"]`)
-			.classList.add("selected");
-		document
-			.querySelector(`button[value="${time ? time : 60}"]`)
-			.classList.add("selected");
+		const selectedElements = document.querySelectorAll(
+			`button[value="${theme}"], button[value="${time}"]`
+		);
+		selectedElements.forEach((el) => {
+			el.classList.add("selected");
+		});
 		window.onkeydown = (e) => {
 			if (
 				e.key.length === 1 ||

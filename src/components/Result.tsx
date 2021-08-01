@@ -1,7 +1,19 @@
 import * as React from "react";
 import "../stylesheets/Result.scss";
 
-export default class Result extends React.Component {
+interface Props {
+	data: {
+		correctChars: number;
+		correctWords: number;
+		incorrectChars: number;
+		incorrectWords: number;
+		timeLimit: number;
+	};
+	spaces: number;
+	resetTest: any;
+}
+
+export default class Result extends React.Component<Props> {
 	render() {
 		const {
 			correctChars,
@@ -15,7 +27,7 @@ export default class Result extends React.Component {
 				<table>
 					<tbody>
 						<tr>
-							<td colSpan="2" align="center">
+							<td colSpan={2} align="center">
 								<h1>
 									{Math.round(
 										((correctChars + this.props.spaces) *
@@ -39,7 +51,7 @@ export default class Result extends React.Component {
 							</td>
 						</tr>
 						<tr>
-							<td colSpan="2" align="center">
+							<td colSpan={2} align="center">
 								<button onClick={this.props.resetTest}>
 									Restart
 								</button>
