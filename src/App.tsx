@@ -58,7 +58,7 @@ export default class App extends React.Component<Props | null, State> {
 		});
 	};
 
-	recordTest = (e) => {
+	recordTest = (e: KeyboardEvent) => {
 		const {
 			typedWord,
 			currWord,
@@ -80,15 +80,11 @@ export default class App extends React.Component<Props | null, State> {
 		}
 		if (setTimer === null && e.key !== "Tab") this.startTimer();
 		const currIdx = this.words.indexOf(currWord);
-		const currWordEl = document.getElementById("active");
-		if (currWordEl) {
-			currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
-		}
-		const caret = document.getElementById("caret");
-		if (caret) {
-			caret.classList.remove("blink");
-			setTimeout(() => caret.classList.add("blink"), 500);
-		}
+		const currWordEl = document.getElementById("active")!;
+		currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
+		const caret = document.getElementById("caret")!;
+		caret.classList.remove("blink");
+		setTimeout(() => caret?.classList.add("blink"), 500);
 		switch (e.key) {
 			case "Tab":
 				if (timer !== timeLimit || setTimer) {
@@ -112,38 +108,30 @@ export default class App extends React.Component<Props | null, State> {
 						incorrectChars: incorrectChars + currWord.length,
 					});
 				}
-				if (currWordEl) {
-					currWordEl.classList.add(
-						typedWord !== currWord ? "wrong" : "right"
-					);
-				}
+				currWordEl.classList.add(
+					typedWord !== currWord ? "wrong" : "right"
+				);
 				this.setState({
 					typedWord: "",
 					currWord: this.words[currIdx + 1],
 					typedHistory: [...typedHistory, typedWord],
 				});
 				if (typedWord.length > currWord.length) {
-					if (currWordEl) {
-						typedWord
-							.slice(currWord.length)
-							.split("")
-							.forEach((char) => {
-								currWordEl.innerHTML += `<span class="wrong extra">${char}</span>`;
-							});
-					}
+					typedWord
+						.slice(currWord.length)
+						.split("")
+						.forEach((char) => {
+							currWordEl.innerHTML += `<span class="wrong extra">${char}</span>`;
+						});
 				}
 				break;
 			case "Backspace":
 				if (e.ctrlKey) {
 					this.setState({ typedWord: "" });
-					if (currWordEl) {
-						for (let i = 0; i < currWordEl.children.length; i++) {
-							currWordEl.children[i].classList.remove(
-								"wrong",
-								"right"
-							);
-						}
-					}
+					currWordEl.childNodes.forEach((char) => {
+						if (char instanceof HTMLSpanElement)
+							char.classList.remove("wrong", "right");
+					});
 				} else {
 					this.setState(
 						{
@@ -152,7 +140,7 @@ export default class App extends React.Component<Props | null, State> {
 						() => {
 							const { typedWord } = this.state;
 							let idx = typedWord.length;
-							if (idx < currWord.length && currWordEl)
+							if (idx < currWord.length)
 								currWordEl.children[idx + 1].classList.remove(
 									"wrong",
 									"right"
@@ -165,11 +153,9 @@ export default class App extends React.Component<Props | null, State> {
 				this.setState({ typedWord: typedWord + e.key }, () => {
 					const { typedWord } = this.state;
 					let idx = typedWord.length - 1;
-					if (currWordEl) {
-						currWordEl.children[idx + 1].classList.add(
-							currWord[idx] !== typedWord[idx] ? "wrong" : "right"
-						);
-					}
+					currWordEl.children[idx + 1].classList.add(
+						currWord[idx] !== typedWord[idx] ? "wrong" : "right"
+					);
 				});
 				break;
 		}
@@ -198,15 +184,11 @@ export default class App extends React.Component<Props | null, State> {
 	componentDidMount() {
 		const theme = localStorage.getItem("theme") || "default";
 		const time = parseInt(localStorage.getItem("time") || "60");
-		if (theme) {
-			document.body.children[1].classList.add(theme);
-		}
-		if (time) {
-			this.setState({
-				timer: time,
-				timeLimit: time,
-			});
-		}
+		document.body.children[1].classList.add(theme);
+		this.setState({
+			timer: time,
+			timeLimit: time,
+		});
 		const selectedElements = document.querySelectorAll(
 			`button[value="${theme}"], button[value="${time}"]`
 		);
@@ -228,35 +210,38 @@ export default class App extends React.Component<Props | null, State> {
 		window.onkeydown = null;
 	}
 
-	handleOptions = (e) => {
-		switch (e.target.dataset.option) {
-			case "theme":
-				document.body.children[1].classList.remove(...options.theme);
-				document.body.children[1].classList.add(e.target.value);
-				break;
-			case "time":
-				this.setState({
-					timer: e.target.value,
-					timeLimit: e.target.value,
-					currWord: this.words[0],
-					typedWord: "",
-					correctWords: 0,
-					correctChars: 0,
-					incorrectWords: 0,
-					incorrectChars: 0,
-				});
-				break;
-			default:
-				break;
-		}
-		localStorage.setItem(e.target.dataset.option, e.target.value);
-		document
-			.querySelectorAll(`.${e.target.dataset.option} button`)
-			.forEach((btn) => {
-				btn.classList.remove("selected");
+	handleOptions = ({ target }: React.MouseEvent) => {
+		if (target instanceof HTMLButtonElement && target.dataset.option) {
+			switch (target.dataset.option) {
+				case "theme":
+					document.body.children[1].classList.remove(
+						...options.theme
+					);
+					document.body.children[1].classList.add(target.value);
+					break;
+				case "time":
+					this.setState({
+						timer: +target.value,
+						timeLimit: +target.value,
+						currWord: this.words[0],
+						typedWord: "",
+						correctWords: 0,
+						correctChars: 0,
+						incorrectWords: 0,
+						incorrectChars: 0,
+					});
+					break;
+				default:
+					break;
+			}
+			localStorage.setItem(target.dataset.option, target.value);
+			target.parentElement!.childNodes.forEach((el) => {
+				if (el instanceof HTMLButtonElement)
+					el.classList.remove("selected");
 			});
-		e.target.classList.add("selected");
-		e.target.blur();
+			target.classList.add("selected");
+			target.blur();
+		}
 	};
 
 	render() {
@@ -271,13 +256,13 @@ export default class App extends React.Component<Props | null, State> {
 						{Object.entries(options).map(([option, choices]) => (
 							<div key={option} className={option}>
 								{option}:
-								{choices.map((choice) => (
+								{choices.map((choice: string) => (
 									<button
 										className="mini"
 										key={choice}
 										data-option={option}
 										value={choice}
-										onClick={this.handleOptions}
+										onClick={(e) => this.handleOptions(e)}
 									>
 										{choice}
 									</button>
