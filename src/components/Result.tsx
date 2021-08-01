@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import "../stylesheets/Result.scss";
 
 export default class Result extends React.Component {

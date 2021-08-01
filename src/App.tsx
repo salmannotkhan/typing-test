@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import Result from "./components/Result";
 import Test from "./components/Test";
 import { words } from "./helpers/words.json";
@@ -9,9 +9,22 @@ const options = {
 	theme: ["default", "mkbhd", "coral", "ocean", "azure", "forest"],
 };
 
-export default class App extends React.Component {
+interface State {
+	currWord: string;
+	typedWord: string;
+	timer: number;
+	correctWords: number;
+	incorrectWords: number;
+	correctChars: number;
+	incorrectChars: number;
+	setTimer: number;
+	timeLimit: number;
+	typedHistory: string[];
+}
+
+export default class App extends React.Component<State> {
 	words = words.sort(() => Math.random() - 0.5);
-	state = {
+	state: State = {
 		currWord: this.words[0],
 		typedWord: "",
 		timer: 60,

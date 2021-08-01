@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import "../stylesheets/Test.scss";
 
 export default class Test extends React.Component {
