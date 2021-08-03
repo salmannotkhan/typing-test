@@ -6,7 +6,6 @@ interface Props {
 	currWord: string;
 	timer: number;
 	words: string[];
-	setTimer: NodeJS.Timeout | null;
 }
 
 export default class Test extends React.Component<Props> {
@@ -15,14 +14,7 @@ export default class Test extends React.Component<Props> {
 		let extraLetters = typedWord.slice(currWord.length).split("");
 		return (
 			<div className="test">
-				<div
-					className={
-						"timer" +
-						(this.props.setTimer === null ? " hidden" : "")
-					}
-				>
-					{timer}
-				</div>
+				<div className="timer">{timer}</div>
 				<div className="box">
 					{words.map((word, idx) => {
 						return (

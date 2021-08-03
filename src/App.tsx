@@ -2,7 +2,7 @@ import * as React from "react";
 import Result from "./components/Result";
 import Test from "./components/Test";
 import { words } from "./helpers/words.json";
-import "./App.scss";
+import "./stylesheets/themes.scss";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -153,13 +153,11 @@ export default class App extends React.Component<Props, State> {
 		}
 	};
 
-	resetTest = (refresh: boolean = true) => {
+	resetTest = () => {
 		document
 			.querySelectorAll(".wrong, .right")
 			.forEach((el) => el.classList.remove("wrong", "right"));
-		if (refresh) {
-			this.words = this.words.sort(() => Math.random() - 0.5);
-		}
+		this.words = this.words.sort(() => Math.random() - 0.5);
 		if (this.state.setTimer) {
 			clearInterval(this.state.setTimer);
 		}
@@ -176,18 +174,10 @@ export default class App extends React.Component<Props, State> {
 	};
 
 	componentDidMount() {
-		const theme = localStorage.getItem("theme") || "default";
 		const time = parseInt(localStorage.getItem("time") || "60");
-		document.body.children[1].classList.add(theme);
 		this.setState({
 			timer: time,
 			timeLimit: time,
-		});
-		const selectedElements = document.querySelectorAll(
-			`button[value="${theme}"], button[value="${time}"]`
-		);
-		selectedElements.forEach((el) => {
-			el.classList.add("selected");
 		});
 		window.onkeydown = (e) => {
 			if (
@@ -209,7 +199,7 @@ export default class App extends React.Component<Props, State> {
 			{
 				timeLimit: newLimit,
 			},
-			() => this.resetTest(false)
+			() => this.resetTest()
 		);
 	}
 
@@ -229,7 +219,6 @@ export default class App extends React.Component<Props, State> {
 						words={this.words}
 						currWord={this.state.currWord}
 						typedWord={this.state.typedWord}
-						setTimer={this.state.setTimer}
 						timer={this.state.timer}
 					/>
 				) : (

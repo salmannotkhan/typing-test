@@ -1,4 +1,5 @@
 import React from "react";
+import "../stylesheets/Header.scss";
 
 interface Options {
 	time: number[];
@@ -15,6 +16,18 @@ interface Props {
 }
 
 export default class Header extends React.Component<Props> {
+	componentDidMount() {
+		const theme = localStorage.getItem("theme") || "default";
+		const time = parseInt(localStorage.getItem("time") || "60");
+		document.body.children[1].classList.add(theme);
+		const selectedElements = document.querySelectorAll(
+			`button[value="${theme}"], button[value="${time}"]`
+		);
+		selectedElements.forEach((el) => {
+			el.classList.add("selected");
+		});
+	}
+
 	handleOptions = ({ target }: React.MouseEvent) => {
 		if (target instanceof HTMLButtonElement && target.dataset.option) {
 			switch (target.dataset.option) {
