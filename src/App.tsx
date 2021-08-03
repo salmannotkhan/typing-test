@@ -4,6 +4,7 @@ import Test from "./components/Test";
 import { words } from "./helpers/words.json";
 import "./App.scss";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 interface State {
 	currWord: string;
@@ -216,12 +217,13 @@ export default class App extends React.Component<Props, State> {
 		const { setTimer, timer } = this.state;
 		return (
 			<>
-				<Header
-					setTimer={this.state.setTimer}
-					changeTimeLimit={(newLimit: number) =>
-						this.changeTimeLimit(newLimit)
-					}
-				/>
+				{!setTimer ? (
+					<Header
+						changeTimeLimit={(newLimit: number) =>
+							this.changeTimeLimit(newLimit)
+						}
+					/>
+				) : null}
 				{timer !== 0 ? (
 					<Test
 						words={this.words}
@@ -237,27 +239,7 @@ export default class App extends React.Component<Props, State> {
 						resetTest={() => this.resetTest()}
 					/>
 				)}
-				<div
-					className={`bottom-area ${
-						setTimer !== null ? "hidden" : ""
-					}`}
-				>
-					<span className="hint">
-						<kbd>Tab</kbd> to restart test
-					</span>
-					<footer>
-						<a href="https://www.github.com/salmannotkhan/Typing-Test">
-							<span>&lt;/&gt;</span>
-							github
-						</a>
-						<span>
-							created by{" "}
-							<a href="https://www.github.com/salmannotkhan">
-								@salmannotkhan
-							</a>
-						</span>
-					</footer>
-				</div>
+				{!setTimer ? <Footer /> : null}
 			</>
 		);
 	}

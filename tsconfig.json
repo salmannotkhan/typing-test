@@ -1,35 +1,29 @@
 {
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "noImplicitAny": true,
-    "resolveJsonModule": true,
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "isolatedModules": true,
-    "noEmit": true,
-    "allowJs": true
-  },
-  "include": [
-    "src"
-  ],
-  "files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/.git/subtree-cache/**": true,
-    "node_modules/**": true
-  }
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"noImplicitAny": true,
+		"resolveJsonModule": true,
+		"target": "es5",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"isolatedModules": true,
+		"noEmit": true,
+		"allowJs": true
+	},
+	"include": ["src"],
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"node_modules/**": true
+	}
 }

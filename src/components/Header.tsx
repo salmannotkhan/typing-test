@@ -11,7 +11,6 @@ const options: Options = {
 };
 
 interface Props {
-	setTimer: NodeJS.Timeout | null;
 	changeTimeLimit(x: number): void;
 }
 
@@ -40,9 +39,8 @@ export default class Header extends React.Component<Props> {
 	};
 
 	render() {
-		const { setTimer } = this.props;
 		return (
-			<header className={setTimer !== null ? "hidden" : ""}>
+			<header>
 				<a href="." className="brand">
 					typing-test
 				</a>
