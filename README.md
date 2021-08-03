@@ -8,17 +8,21 @@ This site is currently live: [Visit Here](https://salmannotkhan.github.io/Typing
 
 ## How to run locally
 
-1. Clone the repo
-2. `cd typing-test`
-3. Run `npm install` to install dependencies
-4. To run `npm start`, this will start local server at `localhost:3000`
-5. To create production build run `npm run build`
+```zsh
+git clone https://github.com/salmannotkhan/typing-test.git
+cd typing-test
+npm install
+# to start local server at `localhost:3000`
+npm start
+# to create production build run
+npm run build
+```
 
 ## Got new theme ideas?
 
 I'll be happy to merge your theme ideas into typing-test. To add new theme:
 
-1. Add theme colors into `src/App.scss` in following format:
+1. Add theme colors into `src/stylesheets/themes.scss` in following format:
 
 ```css
 .theme-name {
@@ -34,7 +38,7 @@ I'll be happy to merge your theme ideas into typing-test. To add new theme:
 > `forground-color` is used for correctly typed characters  
 > <i>Using hex codes for colors is recommended</i>
 
-2.  Add theme name into `src/App.tsx` in options:
+2.  Add theme name into `src/components/Header.tsx` in options:
 
 ```tsx
 const options: Options = {
@@ -44,7 +48,7 @@ const options: Options = {
 ```
 
 > **Important:**  
-> theme-name in `App.scss` and `App.tsx` should always match otherwise themes won't work
+> theme-name in `themes.scss` and `Header.tsx` should always match otherwise themes won't work
 
 3. Make a pull request
 
