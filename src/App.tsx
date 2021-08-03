@@ -3,16 +3,7 @@ import Result from "./components/Result";
 import Test from "./components/Test";
 import { words } from "./helpers/words.json";
 import "./App.scss";
-
-interface Options {
-	time: number[];
-	theme: string[];
-}
-
-const options: Options = {
-	time: [15, 30, 45, 60],
-	theme: ["default", "mkbhd", "coral", "ocean", "azure", "forest"],
-};
+import Header from "./components/Header";
 
 interface State {
 	currWord: string;
@@ -29,7 +20,7 @@ interface State {
 
 interface Props {}
 
-export default class App extends React.Component<Props | null, State> {
+export default class App extends React.Component<Props, State> {
 	words = words.sort(() => Math.random() - 0.5);
 	state: State = {
 		currWord: this.words[0],
@@ -161,11 +152,13 @@ export default class App extends React.Component<Props | null, State> {
 		}
 	};
 
-	resetTest = () => {
+	resetTest = (refresh: boolean = true) => {
 		document
 			.querySelectorAll(".wrong, .right")
 			.forEach((el) => el.classList.remove("wrong", "right"));
-		this.words = this.words.sort(() => Math.random() - 0.5);
+		if (refresh) {
+			this.words = this.words.sort(() => Math.random() - 0.5);
+		}
 		if (this.state.setTimer) {
 			clearInterval(this.state.setTimer);
 		}
@@ -210,67 +203,25 @@ export default class App extends React.Component<Props | null, State> {
 		window.onkeydown = null;
 	}
 
-	handleOptions = ({ target }: React.MouseEvent) => {
-		if (target instanceof HTMLButtonElement && target.dataset.option) {
-			switch (target.dataset.option) {
-				case "theme":
-					document.body.children[1].classList.remove(
-						...options.theme
-					);
-					document.body.children[1].classList.add(target.value);
-					break;
-				case "time":
-					this.setState({
-						timer: +target.value,
-						timeLimit: +target.value,
-						currWord: this.words[0],
-						typedWord: "",
-						correctWords: 0,
-						correctChars: 0,
-						incorrectWords: 0,
-						incorrectChars: 0,
-					});
-					break;
-				default:
-					break;
-			}
-			localStorage.setItem(target.dataset.option, target.value);
-			target.parentElement!.childNodes.forEach((el) => {
-				if (el instanceof HTMLButtonElement)
-					el.classList.remove("selected");
-			});
-			target.classList.add("selected");
-			target.blur();
-		}
-	};
+	changeTimeLimit(newLimit: number) {
+		this.setState(
+			{
+				timeLimit: newLimit,
+			},
+			() => this.resetTest(false)
+		);
+	}
 
 	render() {
 		const { setTimer, timer } = this.state;
 		return (
 			<>
-				<header className={setTimer !== null ? "hidden" : ""}>
-					<a href="." className="brand">
-						typing-test
-					</a>
-					<div className="buttons">
-						{Object.entries(options).map(([option, choices]) => (
-							<div key={option} className={option}>
-								{option}:
-								{choices.map((choice: string) => (
-									<button
-										className="mini"
-										key={choice}
-										data-option={option}
-										value={choice}
-										onClick={(e) => this.handleOptions(e)}
-									>
-										{choice}
-									</button>
-								))}
-							</div>
-						))}
-					</div>
-				</header>
+				<Header
+					setTimer={this.state.setTimer}
+					changeTimeLimit={(newLimit: number) =>
+						this.changeTimeLimit(newLimit)
+					}
+				/>
 				{timer !== 0 ? (
 					<Test
 						words={this.words}
