@@ -108,37 +108,60 @@ export default class App extends React.Component<Props, State> {
 					currWord: this.words[currIdx + 1],
 					typedHistory: [...typedHistory, typedWord],
 				});
-				if (typedWord.length > currWord.length) {
-					typedWord
-						.slice(currWord.length)
-						.split("")
-						.forEach((char) => {
-							currWordEl.innerHTML += `<span class="wrong extra">${char}</span>`;
-						});
-				}
 				break;
 			case "Backspace":
-				if (e.ctrlKey) {
-					this.setState({ typedWord: "" });
-					currWordEl.childNodes.forEach((char) => {
-						if (char instanceof HTMLSpanElement)
-							char.classList.remove("wrong", "right");
+				if (
+					this.state.typedWord.length === 0 &&
+					this.state.typedHistory[currIdx - 1] !==
+						this.words[currIdx - 1]
+				) {
+					this.setState({
+						currWord: this.words[currIdx - 1],
+						typedWord: !e.ctrlKey
+							? this.state.typedHistory[currIdx - 1]
+							: "",
+						typedHistory: this.state.typedHistory.splice(
+							0,
+							this.state.typedHistory.length - 1
+						),
 					});
-				} else {
-					this.setState(
-						{
-							typedWord: typedWord.slice(0, typedWord.length - 1),
-						},
-						() => {
-							const { typedWord } = this.state;
-							let idx = typedWord.length;
-							if (idx < currWord.length)
-								currWordEl.children[idx + 1].classList.remove(
-									"wrong",
-									"right"
-								);
-						}
+					currWordEl.previousElementSibling!.classList.remove(
+						"right",
+						"wrong"
 					);
+					if (e.ctrlKey) {
+						currWordEl.previousElementSibling!.childNodes.forEach(
+							(char) => {
+								if (char instanceof HTMLSpanElement)
+									char.classList.remove("wrong", "right");
+							}
+						);
+					}
+				} else {
+					if (e.ctrlKey) {
+						this.setState({ typedWord: "" });
+						currWordEl.childNodes.forEach((char) => {
+							if (char instanceof HTMLSpanElement)
+								char.classList.remove("wrong", "right");
+						});
+					} else {
+						this.setState(
+							{
+								typedWord: typedWord.slice(
+									0,
+									typedWord.length - 1
+								),
+							},
+							() => {
+								const { typedWord } = this.state;
+								let idx = typedWord.length;
+								if (idx < currWord.length)
+									currWordEl.children[
+										idx + 1
+									].classList.remove("wrong", "right");
+							}
+						);
+					}
 				}
 				break;
 			default:
@@ -170,6 +193,7 @@ export default class App extends React.Component<Props, State> {
 			incorrectWords: 0,
 			incorrectChars: 0,
 			setTimer: null,
+			typedHistory: [],
 		});
 	};
 
@@ -219,6 +243,7 @@ export default class App extends React.Component<Props, State> {
 						words={this.words}
 						currWord={this.state.currWord}
 						typedWord={this.state.typedWord}
+						typedHistory={this.state.typedHistory}
 						timer={this.state.timer}
 					/>
 				) : (

@@ -5,12 +5,13 @@ interface Props {
 	typedWord: string;
 	currWord: string;
 	timer: number;
+	typedHistory: string[];
 	words: string[];
 }
 
 export default class Test extends React.Component<Props> {
 	render() {
-		const { typedWord, currWord, timer, words } = this.props;
+		const { typedWord, currWord, timer, words, typedHistory } = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");
 		return (
 			<div className="test">
@@ -50,6 +51,20 @@ export default class Test extends React.Component<Props> {
 												</span>
 											);
 									  })
+									: typedHistory[idx]
+									? typedHistory[idx]
+											.slice(words[idx].length)
+											.split("")
+											.map((char, charId) => {
+												return (
+													<span
+														key={char + charId}
+														className="wrong extra"
+													>
+														{char}
+													</span>
+												);
+											})
 									: null}
 							</div>
 						);
