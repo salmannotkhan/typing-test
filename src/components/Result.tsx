@@ -1,54 +1,41 @@
-import * as React from "react";
+import { Component } from "react";
 import "../stylesheets/Result.scss";
 
 interface Props {
-	data: {
-		correctChars: number;
-		correctWords: number;
-		incorrectChars: number;
-		incorrectWords: number;
-		timeLimit: number;
-	};
+	words: string[];
+	typedHistory: string[];
+	timeLimit: number;
 	spaces: number;
-	resetTest: any;
+	resetTest: React.MouseEventHandler;
 }
 
-export default class Result extends React.Component<Props> {
+export default class Result extends Component<Props> {
 	render() {
-		const {
-			correctChars,
-			correctWords,
-			incorrectChars,
-			incorrectWords,
-			timeLimit,
-		} = this.props.data;
+		const { words, typedHistory, spaces, timeLimit } = this.props;
+		let correctChars = 0;
+		const result = typedHistory.map(
+			(typedWord, idx) => typedWord === words[idx]
+		);
+		result.forEach((r, idx) => {
+			if (r) correctChars += words[idx].length;
+		});
+		const wpm = ((correctChars + spaces) * 60) / timeLimit / 5;
 		return (
 			<div className="result">
 				<table>
 					<tbody>
 						<tr>
 							<td colSpan={2} align="center">
-								<h1>
-									{Math.round(
-										((correctChars + this.props.spaces) *
-											60) /
-											timeLimit /
-											5
-									) + " wpm"}
-								</h1>
+								<h1>{Math.round(wpm) + " wpm"}</h1>
 							</td>
 						</tr>
 						<tr>
 							<th>Correct Words:</th>
-							<td>
-								{correctWords} ({correctChars})
-							</td>
+							<td>{result.filter((x) => x).length}</td>
 						</tr>
 						<tr>
 							<th>Incorrect Words:</th>
-							<td>
-								{incorrectWords} ({incorrectChars})
-							</td>
+							<td>{result.filter((x) => !x).length}</td>
 						</tr>
 						<tr>
 							<td colSpan={2} align="center">

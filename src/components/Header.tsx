@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import "../stylesheets/Header.scss";
 
 interface Options {
@@ -15,7 +15,7 @@ interface Props {
 	changeTimeLimit(x: number): void;
 }
 
-export default class Header extends React.Component<Props> {
+export default class Header extends Component<Props> {
 	componentDidMount() {
 		const theme = localStorage.getItem("theme") || "default";
 		const time = parseInt(localStorage.getItem("time") || "60");

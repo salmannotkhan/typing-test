@@ -1,7 +1,7 @@
-import React from "react";
+import { Component } from "react";
 import "../stylesheets/Footer.scss";
 
-export default class Footer extends React.Component {
+export default class Footer extends Component {
 	render() {
 		return (
 			<div className="bottom-area">

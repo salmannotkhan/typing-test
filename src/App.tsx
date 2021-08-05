@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Component } from "react";
 import Result from "./components/Result";
 import Test from "./components/Test";
 import { words } from "./helpers/words.json";
@@ -10,10 +10,6 @@ interface State {
 	currWord: string;
 	typedWord: string;
 	timer: number;
-	correctWords: number;
-	incorrectWords: number;
-	correctChars: number;
-	incorrectChars: number;
 	setTimer: NodeJS.Timeout | null;
 	timeLimit: number;
 	typedHistory: string[];
@@ -21,16 +17,12 @@ interface State {
 
 interface Props {}
 
-export default class App extends React.Component<Props, State> {
+export default class App extends Component<Props, State> {
 	words = words.sort(() => Math.random() - 0.5);
 	state: State = {
 		currWord: this.words[0],
 		typedWord: "",
 		timer: 60,
-		correctWords: 0,
-		incorrectWords: 0,
-		correctChars: 0,
-		incorrectChars: 0,
 		setTimer: null,
 		timeLimit: 60,
 		typedHistory: [],
@@ -54,10 +46,6 @@ export default class App extends React.Component<Props, State> {
 		const {
 			typedWord,
 			currWord,
-			correctChars,
-			correctWords,
-			incorrectChars,
-			incorrectWords,
 			timer,
 			timeLimit,
 			setTimer,
@@ -86,20 +74,7 @@ export default class App extends React.Component<Props, State> {
 				e.preventDefault();
 				break;
 			case " ":
-				if (typedWord === "") {
-					return;
-				}
-				if (currWord === typedWord) {
-					this.setState({
-						correctWords: correctWords + 1,
-						correctChars: correctChars + currWord.length,
-					});
-				} else {
-					this.setState({
-						incorrectWords: incorrectWords + 1,
-						incorrectChars: incorrectChars + currWord.length,
-					});
-				}
+				if (typedWord === "") return;
 				currWordEl.classList.add(
 					typedWord !== currWord ? "wrong" : "right"
 				);
@@ -111,18 +86,15 @@ export default class App extends React.Component<Props, State> {
 				break;
 			case "Backspace":
 				if (
-					this.state.typedWord.length === 0 &&
-					this.state.typedHistory[currIdx - 1] !==
-						this.words[currIdx - 1]
+					typedWord.length === 0 &&
+					typedHistory[currIdx - 1] !== this.words[currIdx - 1]
 				) {
 					this.setState({
 						currWord: this.words[currIdx - 1],
-						typedWord: !e.ctrlKey
-							? this.state.typedHistory[currIdx - 1]
-							: "",
-						typedHistory: this.state.typedHistory.splice(
+						typedWord: !e.ctrlKey ? typedHistory[currIdx - 1] : "",
+						typedHistory: typedHistory.splice(
 							0,
-							this.state.typedHistory.length - 1
+							typedHistory.length - 1
 						),
 					});
 					currWordEl.previousElementSibling!.classList.remove(
@@ -153,8 +125,7 @@ export default class App extends React.Component<Props, State> {
 								),
 							},
 							() => {
-								const { typedWord } = this.state;
-								let idx = typedWord.length;
+								let idx = this.state.typedWord.length;
 								if (idx < currWord.length)
 									currWordEl.children[
 										idx + 1
@@ -188,10 +159,6 @@ export default class App extends React.Component<Props, State> {
 			timer: this.state.timeLimit,
 			currWord: this.words[0],
 			typedWord: "",
-			correctChars: 0,
-			correctWords: 0,
-			incorrectWords: 0,
-			incorrectChars: 0,
 			setTimer: null,
 			typedHistory: [],
 		});
@@ -248,7 +215,9 @@ export default class App extends React.Component<Props, State> {
 					/>
 				) : (
 					<Result
-						data={this.state}
+						words={this.words}
+						typedHistory={this.state.typedHistory}
+						timeLimit={this.state.timeLimit}
 						spaces={this.words.indexOf(this.state.currWord)}
 						resetTest={() => this.resetTest()}
 					/>

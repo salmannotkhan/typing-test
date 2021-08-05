@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Component } from "react";
 import "../stylesheets/Test.scss";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 	words: string[];
 }
 
-export default class Test extends React.Component<Props> {
+export default class Test extends Component<Props> {
 	render() {
 		const { typedWord, currWord, timer, words, typedHistory } = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");
