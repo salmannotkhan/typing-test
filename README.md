@@ -14,10 +14,8 @@ This site is currently live: [Visit Here](https://salmannotkhan.github.io/Typing
 git clone https://github.com/salmannotkhan/typing-test.git
 cd typing-test
 npm install
-# to start local server at `localhost:3000`
-npm start
-# to create production build run
-npm run build
+npm start     # to start local server at `localhost:3000`
+npm run build # to create production build run
 ```
 
 ## Got new theme ideas?
