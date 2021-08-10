@@ -1,0 +1,6 @@
+node_modules
+build
+.dockerignore
+Dockerfile
+README.md
+CODE_OF_CONDUCT.md
