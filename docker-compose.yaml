@@ -1,0 +1,7 @@
+version: "3"
+services:
+    typing-test-app:
+        image: typing-test-app
+        ports:
+            - "8080:3000"
+        command: typing-test-app
