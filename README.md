@@ -30,8 +30,11 @@ The **typing-test** app also has a Docker deployment for self-hosting purposes. 
 
 The `Dockerfile` at the root is the source of building the image. By default **port** `3000` is exposed by the container. You can change it to a different port if require via docker run.
 
-To build the image, you can run,
+To build the image, you can run (development build),
 `docker build -t typing-test-app .`
+
+**For production build use the Dockerfile.prod file** [Port 80 is exposed in production mode]
+`docker build -f Dockerfile.prod -t typing-test-app:prod .`
 
 > _Remember, the . (dot) sign is very necessary to provide the build context to the docker runtime._
 
