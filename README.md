@@ -6,7 +6,7 @@
 
 NOTE: This is my recreation of already existing [monkeytype](https://monkeytype.com)
 
-This site is currently live: [Visit Here](https://salmannotkhan.github.io/Typing-Test)
+This site is currently live: [Visit Here](https://salmannotkhan.github.io/typing-test)
 
 ## How to run locally
 
@@ -31,7 +31,7 @@ The **typing-test** app also has a Docker deployment for self-hosting purposes. 
 The `Dockerfile` at the root is the source of building the image. By default **port** `3000` is exposed by the container. You can change it to a different port if require via docker run.
 
 To build the image, you can run,
-`docker built -t typing-test-app .`
+`docker build -t typing-test-app .`
 
 > _Remember, the . (dot) sign is very necessary to provide the build context to the docker runtime._
 
