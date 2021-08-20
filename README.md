@@ -6,7 +6,7 @@
 
 NOTE: This is my recreation of already existing [monkeytype](https://monkeytype.com)
 
-This site is currently live: [Visit Here](https://salmannotkhan.github.io/Typing-Test)
+This site is currently live: [Visit Here](https://salmannotkhan.github.io/typing-test)
 
 ## How to run locally
 
