@@ -18,7 +18,7 @@ interface Props {
 export default class Header extends Component<Props> {
 	componentDidMount() {
 		const theme = localStorage.getItem("theme") || "default";
-		const time = parseInt(localStorage.getItem("time") || "60");
+		const time = parseInt(localStorage.getItem("time") || "60", 10);
 		document.body.children[1].classList.add(theme);
 		const selectedElements = document.querySelectorAll(
 			`button[value="${theme}"], button[value="${time}"]`

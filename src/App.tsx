@@ -165,7 +165,7 @@ export default class App extends Component<Props, State> {
 	};
 
 	componentDidMount() {
-		const time = parseInt(localStorage.getItem("time") || "60");
+		const time = parseInt(localStorage.getItem("time") || "60", 10);
 		this.setState({
 			timer: time,
 			timeLimit: time,
