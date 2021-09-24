@@ -21,7 +21,7 @@
 	user-select: none;
 	.word {
 		position: relative;
-		margin: 0px 5px 2px 5px;
+		margin: 0 5px 2px;
 		&.wrong {
 			text-decoration: 2px underline var(--hl-color);
 		}

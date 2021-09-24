@@ -15,9 +15,7 @@ interface State {
 	typedHistory: string[];
 }
 
-interface Props {}
-
-export default class App extends Component<Props, State> {
+export default class App extends Component<{}, State> {
 	words = words.sort(() => Math.random() - 0.5);
 	state: State = {
 		currWord: this.words[0],
