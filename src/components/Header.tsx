@@ -8,7 +8,7 @@ interface Options {
 
 const options: Options = {
 	time: [15, 30, 45, 60],
-	theme: ["default", "mkbhd", "coral", "ocean", "azure", "forest", "rose-milk"],
+	theme: ["default", "mkbhd", "coffee", "coral", "ocean", "azure", "forest", "rose-milk"],
 };
 
 interface Props {
