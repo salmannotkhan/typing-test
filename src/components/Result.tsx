@@ -31,11 +31,11 @@ export default class Result extends Component<Props> {
 						</tr>
 						<tr>
 							<th>Correct Words:</th>
-							<td>{result.filter((x) => x).length}</td>
+							<td className="correct">{result.filter((x) => x).length}</td>
 						</tr>
 						<tr>
 							<th>Incorrect Words:</th>
-							<td>{result.filter((x) => !x).length}</td>
+							<td className="wrong">{result.filter((x) => !x).length}</td>
 						</tr>
 						<tr>
 							<td colSpan={2} align="center">
