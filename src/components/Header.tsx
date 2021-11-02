@@ -8,7 +8,16 @@ interface Options {
 
 const options: Options = {
 	time: [15, 30, 45, 60, 120],
-	theme: ["default", "mkbhd", "mocha", "coral", "ocean", "azure", "forest", "rose-milk"],
+	theme: [
+		"default",
+		"mkbhd",
+		"mocha",
+		"coral",
+		"ocean",
+		"azure",
+		"forest",
+		"rose-milk",
+	],
 };
 
 interface Props {
@@ -67,8 +76,7 @@ export default class Header extends Component<Props> {
 									key={choice}
 									data-option={option}
 									value={choice}
-									onClick={(e) => this.handleOptions(e)}
-								>
+									onClick={(e) => this.handleOptions(e)}>
 									{choice}
 								</button>
 							))}

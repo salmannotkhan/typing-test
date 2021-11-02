@@ -10,11 +10,10 @@ interface Props {
 }
 
 export default class Test extends Component<Props> {
-	
 	render() {
 		const { typedWord, currWord, timer, words, typedHistory } = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");
-		
+
 		return (
 			<div className="test">
 				<div className="timer">{timer}</div>
@@ -24,16 +23,14 @@ export default class Test extends Component<Props> {
 							<div
 								key={word + idx}
 								className="word"
-								id={currWord === word ? "active" : ""}
-							>
+								id={currWord === word ? "active" : ""}>
 								{currWord === word ? (
 									<span
 										id="caret"
 										className="blink"
 										style={{
 											left: typedWord.length * 14.5833,
-										}}
-									>
+										}}>
 										|
 									</span>
 								) : null}
@@ -47,8 +44,7 @@ export default class Test extends Component<Props> {
 											return (
 												<span
 													key={char + charId}
-													className="wrong extra"
-												>
+													className="wrong extra">
 													{char}
 												</span>
 											);
@@ -61,14 +57,12 @@ export default class Test extends Component<Props> {
 												return (
 													<span
 														key={char + charId}
-														className="wrong extra"
-													>
+														className="wrong extra">
 														{char}
 													</span>
 												);
 											})
 									: null}
-									
 							</div>
 						);
 					})}
