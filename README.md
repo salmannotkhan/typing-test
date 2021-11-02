@@ -43,7 +43,7 @@ I'll be happy to merge your theme ideas into typing-test. To add new theme:
 ```tsx
 const options: Options = {
 	time: [15, 30, 45, 60],
-	theme: ["default", "mkbhd", "coral", "ocean", "azure", "forest", <theme-name>],
+	theme: ["default", "mkbhd", "coral", "ocean", "azure", "forest", "mocha", <theme-name>],
 };
 ```
 
