@@ -33,7 +33,7 @@ export default class Result extends Component<Props> {
 							<th>Correct Words:</th>
 							<td>{result.filter((x) => x).length}</td>
 						</tr>
-						<tr>
+						<tr className="wrong">
 							<th>Incorrect Words:</th>
 							<td>{result.filter((x) => !x).length}</td>
 						</tr>

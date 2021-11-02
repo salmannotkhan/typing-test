@@ -10,9 +10,11 @@ interface Props {
 }
 
 export default class Test extends Component<Props> {
+	
 	render() {
 		const { typedWord, currWord, timer, words, typedHistory } = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");
+		
 		return (
 			<div className="test">
 				<div className="timer">{timer}</div>
@@ -66,6 +68,7 @@ export default class Test extends Component<Props> {
 												);
 											})
 									: null}
+									
 							</div>
 						);
 					})}
