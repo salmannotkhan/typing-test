@@ -23,7 +23,7 @@ export default class Test extends Component<Props> {
 							<div
 								key={word + idx}
 								className="word"
-								id={currWord === word ? "active" : ""}>
+								id={currWord === word ? "active" : undefined}>
 								{currWord === word ? (
 									<span
 										id="caret"

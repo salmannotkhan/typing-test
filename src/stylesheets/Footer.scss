@@ -1,6 +1,7 @@
 .bottom-area {
 	width: 50%;
 	justify-content: center;
+	position: relative;
 	.hint {
 		display: flex;
 		align-items: center;
@@ -16,5 +17,59 @@
 	}
 	footer {
 		width: 100%;
+		button,
+		& > a {
+			font-size: 12pt;
+			border: none;
+			width: 150px;
+			margin: 0;
+			padding: 0 10px;
+		}
+		.contributor-list {
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			bottom: 90px;
+			right: 10px;
+			max-height: 300%;
+			width: 300px;
+			overflow-y: auto;
+			background-color: var(--bg-color);
+			border: 1px solid var(--fg-color);
+			box-shadow: 5px 5px var(--fg-color);
+			scrollbar-width: thin;
+			h2 {
+				position: sticky;
+				top: 0;
+				background-color: var(--bg-color);
+				padding: 15px;
+				margin: 0;
+			}
+			.contributor {
+				display: flex;
+				flex-direction: row;
+				padding: 10px;
+				img {
+					border-radius: 50%;
+					margin: 5px;
+				}
+				.contributor-details {
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					padding: 5px 15px;
+				}
+			}
+			&::-webkit-scrollbar {
+				width: 5px;
+			}
+			&::-webkit-scrollbar-thumb {
+				background-color: var(--font-color);
+				border-radius: 10px;
+			}
+			&::-webkit-scrollbar-track-piece {
+				background-color: var(--bg-color);
+			}
+		}
 	}
 }
