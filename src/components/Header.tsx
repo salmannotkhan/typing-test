@@ -1,5 +1,5 @@
 import { Component } from "react";
-import "../stylesheets/Header.scss";
+import "stylesheets/Header.scss";
 
 interface Options {
 	time: number[];

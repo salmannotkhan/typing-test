@@ -1,5 +1,5 @@
 import { Component } from "react";
-import "../stylesheets/Test.scss";
+import "stylesheets/Test.scss";
 
 interface Props {
 	typedWord: string;

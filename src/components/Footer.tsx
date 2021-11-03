@@ -1,5 +1,5 @@
 import { Component } from "react";
-import "../stylesheets/Footer.scss";
+import "stylesheets/Footer.scss";
 
 interface Contributor {
 	avatar_url: string;

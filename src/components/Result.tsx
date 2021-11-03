@@ -1,5 +1,5 @@
 import { Component } from "react";
-import "../stylesheets/Result.scss";
+import "stylesheets/Result.scss";
 
 interface Props {
 	words: string[];

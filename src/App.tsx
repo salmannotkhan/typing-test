@@ -1,10 +1,10 @@
 import { Component } from "react";
-import Result from "./components/Result";
-import Test from "./components/Test";
-import { words } from "./helpers/words.json";
-import "./stylesheets/themes.scss";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Result from "components/Result";
+import Test from "components/Test";
+import { words } from "helpers/words.json";
+import "stylesheets/themes.scss";
+import Header from "components/Header";
+import Footer from "components/Footer";
 
 interface State {
 	currWord: string;

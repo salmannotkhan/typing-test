@@ -18,7 +18,8 @@
 		"moduleResolution": "node",
 		"isolatedModules": true,
 		"noEmit": true,
-		"allowJs": true
+		"allowJs": true,
+		"baseUrl": "src"
 	},
 	"include": ["src"],
 	"files.watcherExclude": {
