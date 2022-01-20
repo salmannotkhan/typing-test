@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import "stylesheets/Footer.scss";
 
 interface Contributor {
@@ -23,90 +23,77 @@ interface Contributor {
 	url: string;
 }
 
-interface State {
-	contributors: [Contributor] | [];
-	showList: boolean;
+interface Props {
+	setTimer: boolean;
 }
-export default class Footer extends Component {
-	state: State = {
-		contributors: [],
-		showList: false,
-	};
-	setContributors = async () => {
-		if (this.state.contributors.length !== 0) {
-			this.setState({ contributors: [] });
-			return;
-		}
-		const res = await fetch(
-			"https://api.github.com/repos/salmannotkhan/typing-test/contributors"
-		);
-		const data: [Contributor] = await res.json();
-		const filtered = data.filter(
-			(contributor) => contributor.login !== "salmannotkhan"
-		);
-		this.setState({ contributors: filtered });
-	};
 
-	componentDidMount() {
-		this.setContributors();
-	}
+export default function Footer({ setTimer }: Props) {
+	const [contributors, setContributors] = useState<Contributor[]>([]);
+	const [showList, setShowList] = useState<boolean>(false);
+	useEffect(() => {
+		const URL =
+			"https://api.github.com/repos/salmannotkhan/typing-test/contributors";
+		fetch(URL)
+			.then((res) => res.json())
+			.then((data: Contributor[]) =>
+				data.filter(
+					(contributor) => contributor.login !== "salmannotkhan"
+				)
+			)
+			.then((filtered) => setContributors(filtered));
+	}, []);
 
-	render() {
-		return (
-			<div className="bottom-area">
-				<span className="hint">
-					<kbd>Tab</kbd> to restart test
-				</span>
-				<footer>
+	return (
+		<div className={`bottom-area ${setTimer ? "hidden" : ""}`}>
+			<span className="hint">
+				<kbd>Tab</kbd> to restart test
+			</span>
+			<footer>
+				<a
+					target="_blank"
+					rel="noreferrer"
+					href="https://www.github.com/salmannotkhan/typing-test">
+					<span>&lt;/&gt;</span> github
+				</a>
+				<span>
+					created by{" "}
 					<a
 						target="_blank"
 						rel="noreferrer"
-						href="https://www.github.com/salmannotkhan/typing-test">
-						<span>&lt;/&gt;</span> github
+						href="https://www.github.com/salmannotkhan">
+						@salmannotkhan
 					</a>
-					<span>
-						created by{" "}
-						<a
-							target="_blank"
-							rel="noreferrer"
-							href="https://www.github.com/salmannotkhan">
-							@salmannotkhan
-						</a>
-					</span>
-					{this.state.showList ? (
-						<div className="contributor-list" onBlur={console.log}>
-							<h2>contributors</h2>
-							{this.state.contributors.map((contributor) => (
-								<a
-									className="contributor"
-									href={contributor.html_url}
-									target="_blank"
-									rel="noreferrer"
-									key={contributor.node_id}>
-									<img
-										height={50}
-										width={50}
-										src={contributor.avatar_url}
-										alt={`${contributor.login}'s avatar`}
-									/>
-									<div className="contributor-details">
-										<div>@{contributor.login}</div>
-										<div>
-											{contributor.contributions} commits
-										</div>
+				</span>
+				{showList ? (
+					<div className="contributor-list" onBlur={console.log}>
+						<h2>contributors</h2>
+						{contributors.map((contributor) => (
+							<a
+								className="contributor"
+								href={contributor.html_url}
+								target="_blank"
+								rel="noreferrer"
+								key={contributor.node_id}>
+								<img
+									height={50}
+									width={50}
+									src={contributor.avatar_url}
+									alt={`${contributor.login}'s avatar`}
+								/>
+								<div className="contributor-details">
+									<div>@{contributor.login}</div>
+									<div>
+										{contributor.contributions} commits
 									</div>
-								</a>
-							))}
-						</div>
-					) : null}
-					<button
-						onClick={(e) =>
-							this.setState({ showList: !this.state.showList })
-						}>
-						{this.state.showList ? "x close" : "{} contributors"}
-					</button>
-				</footer>
-			</div>
-		);
-	}
+								</div>
+							</a>
+						))}
+					</div>
+				) : null}
+				<button onClick={(e) => setShowList(!showList)}>
+					{showList ? "x close" : "{} contributors"}
+				</button>
+			</footer>
+		</div>
+	);
 }

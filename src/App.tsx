@@ -1,7 +1,7 @@
 import { Component } from "react";
 import Result from "components/Result";
 import Test from "components/Test";
-import { words } from "helpers/words.json";
+import words from "helpers/words.json";
 import "stylesheets/themes.scss";
 import Header from "components/Header";
 import Footer from "components/Footer";
@@ -196,13 +196,12 @@ export default class App extends Component<{}, State> {
 		const { setTimer, timer } = this.state;
 		return (
 			<>
-				{!setTimer ? (
-					<Header
-						changeTimeLimit={(newLimit: number) =>
-							this.changeTimeLimit(newLimit)
-						}
-					/>
-				) : null}
+				<Header
+					setTimer={Boolean(setTimer)}
+					changeTimeLimit={(newLimit: number) =>
+						this.changeTimeLimit(newLimit)
+					}
+				/>
 				{timer !== 0 ? (
 					<Test
 						words={this.words}
@@ -220,7 +219,7 @@ export default class App extends Component<{}, State> {
 						resetTest={() => this.resetTest()}
 					/>
 				)}
-				{!setTimer ? <Footer /> : null}
+				<Footer setTimer={Boolean(setTimer)} />
 			</>
 		);
 	}

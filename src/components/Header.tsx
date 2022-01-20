@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import "stylesheets/Header.scss";
 
 interface Options {
@@ -21,69 +21,80 @@ const options: Options = {
 };
 
 interface Props {
+	setTimer: boolean;
 	changeTimeLimit(x: number): void;
 }
 
-export default class Header extends Component<Props> {
-	componentDidMount() {
+export default function Header({ setTimer, changeTimeLimit }: Props) {
+	const [time, setTime] = useState<number>(0);
+	const [theme, setTheme] = useState<string>("null");
+
+	useEffect(() => {
 		const theme = localStorage.getItem("theme") || "default";
 		const time = parseInt(localStorage.getItem("time") || "60", 10);
-		document.body.children[1].classList.add(theme);
-		const selectedElements = document.querySelectorAll(
-			`button[value="${theme}"], button[value="${time}"]`
-		);
-		selectedElements.forEach((el) => {
-			el.classList.add("selected");
-		});
-	}
+		setTime(time);
+		setTheme(theme);
+	}, []);
 
-	handleOptions = ({ target }: React.MouseEvent) => {
+	// Set Theme
+	useEffect(() => {
+		document
+			.querySelector(`button[value="${theme}"]`)
+			?.classList.add("selected");
+		document.body.children[1].classList.remove(...options.theme);
+		document.body.children[1].classList.add(theme);
+		localStorage.setItem("theme", theme);
+	}, [theme]);
+
+	// Set Time
+	useEffect(() => {
+		document
+			.querySelector(`button[value="${time}"]`)
+			?.classList.add("selected");
+		changeTimeLimit(time);
+		localStorage.setItem("time", `${time}`);
+	}, [time]);
+
+	const handleOptions = ({ target }: React.MouseEvent) => {
 		if (target instanceof HTMLButtonElement && target.dataset.option) {
-			switch (target.dataset.option) {
-				case "theme":
-					document.body.children[1].classList.remove(
-						...options.theme
-					);
-					document.body.children[1].classList.add(target.value);
-					break;
-				case "time":
-					this.props.changeTimeLimit(+target.value);
-					break;
-			}
-			localStorage.setItem(target.dataset.option, target.value);
 			target.parentElement!.childNodes.forEach((el) => {
 				if (el instanceof HTMLButtonElement)
 					el.classList.remove("selected");
 			});
-			target.classList.add("selected");
+			switch (target.dataset.option) {
+				case "theme":
+					setTheme(target.value);
+					break;
+				case "time":
+					setTime(+target.value);
+					break;
+			}
 			target.blur();
 		}
 	};
 
-	render() {
-		return (
-			<header>
-				<a href="." className="brand">
-					typing-test
-				</a>
-				<div className="buttons">
-					{Object.entries(options).map(([option, choices]) => (
-						<div key={option} className={option}>
-							{option}:
-							{choices.map((choice: string) => (
-								<button
-									className="mini"
-									key={choice}
-									data-option={option}
-									value={choice}
-									onClick={(e) => this.handleOptions(e)}>
-									{choice}
-								</button>
-							))}
-						</div>
-					))}
-				</div>
-			</header>
-		);
-	}
+	return (
+		<header className={setTimer ? "hidden" : undefined}>
+			<a href="." className="brand">
+				typing-test
+			</a>
+			<div className="buttons">
+				{Object.entries(options).map(([option, choices]) => (
+					<div key={option} className={option}>
+						{option}:
+						{choices.map((choice: string) => (
+							<button
+								className="mini"
+								key={choice}
+								data-option={option}
+								value={choice}
+								onClick={(e) => handleOptions(e)}>
+								{choice}
+							</button>
+						))}
+					</div>
+				))}
+			</div>
+		</header>
+	);
 }
