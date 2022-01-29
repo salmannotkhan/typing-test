@@ -1,21 +1,19 @@
+import { resetTest } from "helpers/resetTest";
+import { useSelector } from "react-redux";
+import { State } from "store/reducer";
 import "stylesheets/Result.scss";
 
-interface Props {
-	words: string[];
-	typedHistory: string[];
-	timeLimit: number;
-	spaces: number;
-	resetTest: React.MouseEventHandler;
-}
-
-export default function Result(props: Props) {
-	const { words, typedHistory, spaces, timeLimit } = props;
+export default function Result() {
+	const { wordList, typedHistory, currWord, timeLimit } = useSelector(
+		(state: State) => state
+	);
+	const spaces = wordList.indexOf(currWord);
 	let correctChars = 0;
 	const result = typedHistory.map(
-		(typedWord, idx) => typedWord === words[idx]
+		(typedWord, idx) => typedWord === wordList[idx]
 	);
 	result.forEach((r, idx) => {
-		if (r) correctChars += words[idx].length;
+		if (r) correctChars += wordList[idx].length;
 	});
 	const wpm = ((correctChars + spaces) * 60) / timeLimit / 5;
 	return (
@@ -37,7 +35,7 @@ export default function Result(props: Props) {
 					</tr>
 					<tr>
 						<td colSpan={2} align="center">
-							<button onClick={props.resetTest}>Restart</button>
+							<button onClick={() => resetTest()}>Restart</button>
 						</td>
 					</tr>
 				</tbody>

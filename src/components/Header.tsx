@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react";
+import { resetTest } from "helpers/resetTest";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme, setTime } from "store/actions";
+import { State } from "store/reducer";
 import "stylesheets/Header.scss";
 
 interface Options {
@@ -20,40 +24,40 @@ const options: Options = {
 	],
 };
 
-interface Props {
-	setTimer: boolean;
-	changeTimeLimit(x: number): void;
-}
-
-export default function Header({ setTimer, changeTimeLimit }: Props) {
-	const [time, setTime] = useState<number>(0);
-	const [theme, setTheme] = useState<string>("null");
+export default function Header() {
+	const { timerId, timeLimit, theme } = useSelector((state: State) => state);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const theme = localStorage.getItem("theme") || "default";
 		const time = parseInt(localStorage.getItem("time") || "60", 10);
-		setTime(time);
-		setTheme(theme);
-	}, []);
+		dispatch(setTime(time));
+		dispatch(setTheme(theme));
+	}, [dispatch]);
 
 	// Set Theme
 	useEffect(() => {
-		document
-			.querySelector(`button[value="${theme}"]`)
-			?.classList.add("selected");
-		document.body.children[1].classList.remove(...options.theme);
-		document.body.children[1].classList.add(theme);
-		localStorage.setItem("theme", theme);
-	}, [theme]);
+		if (theme) {
+			document
+				.querySelector(`button[value="${theme}"]`)
+				?.classList.add("selected");
+			document.body.children[1].classList.remove(...options.theme);
+			document.body.children[1].classList.add(theme);
+			localStorage.setItem("theme", theme);
+		}
+	}, [dispatch, theme]);
 
 	// Set Time
 	useEffect(() => {
-		document
-			.querySelector(`button[value="${time}"]`)
-			?.classList.add("selected");
-		changeTimeLimit(time);
-		localStorage.setItem("time", `${time}`);
-	}, [time]);
+		if (timeLimit !== 0) {
+			document
+				.querySelector(`button[value="${timeLimit}"]`)
+				?.classList.add("selected");
+
+			dispatch(setTime(timeLimit));
+			localStorage.setItem("time", `${timeLimit}`);
+		}
+	}, [dispatch, timeLimit]);
 
 	const handleOptions = ({ target }: React.MouseEvent) => {
 		if (target instanceof HTMLButtonElement && target.dataset.option) {
@@ -63,10 +67,11 @@ export default function Header({ setTimer, changeTimeLimit }: Props) {
 			});
 			switch (target.dataset.option) {
 				case "theme":
-					setTheme(target.value);
+					dispatch(setTheme(target.value));
 					break;
 				case "time":
-					setTime(+target.value);
+					dispatch(setTime(+target.value));
+					resetTest();
 					break;
 			}
 			target.blur();
@@ -74,7 +79,7 @@ export default function Header({ setTimer, changeTimeLimit }: Props) {
 	};
 
 	return (
-		<header className={setTimer ? "hidden" : undefined}>
+		<header className={timerId ? "hidden" : undefined}>
 			<a href="." className="brand">
 				typing-test
 			</a>

@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { State } from "store/reducer";
 import "stylesheets/Footer.scss";
 
 interface Contributor {
@@ -23,12 +25,9 @@ interface Contributor {
 	url: string;
 }
 
-interface Props {
-	setTimer: boolean;
-}
-
-export default function Footer({ setTimer }: Props) {
+export default function Footer() {
 	const [contributors, setContributors] = useState<Contributor[]>([]);
+	const { timerId } = useSelector((state: State) => state);
 	const [showList, setShowList] = useState<boolean>(false);
 	useEffect(() => {
 		const URL =
@@ -44,7 +43,7 @@ export default function Footer({ setTimer }: Props) {
 	}, []);
 
 	return (
-		<div className={`bottom-area ${setTimer ? "hidden" : ""}`}>
+		<div className={`bottom-area ${timerId ? "hidden" : ""}`}>
 			<span className="hint">
 				<kbd>Tab</kbd> to restart test
 			</span>
