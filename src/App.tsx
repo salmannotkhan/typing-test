@@ -52,7 +52,6 @@ export default function App() {
 
 	useEffect(() => {
 		if (timer === 0 && timerId) {
-			console.log(timer);
 			clearInterval(timerId);
 			dispatch(setTimerId(null));
 		}
