@@ -1,0 +1,28 @@
+.animated-theme {
+	display: block;
+	position: fixed;
+	border-radius: 50%;
+	background-color: var(--bg-color);
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+	z-index: 99;
+	animation: grow 1s ease-in-out;
+	&.default {
+		background-color: black !important;
+	}
+	@keyframes grow {
+		0% {
+			min-height: 0px;
+			min-width: 0px;
+		}
+
+		80% {
+			min-width: 4000px;
+			min-height: 4000px;
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+}
