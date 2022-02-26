@@ -24,6 +24,18 @@
 		margin: 0 5px 2px;
 		&.wrong {
 			text-decoration: 2px underline var(--hl-color);
+			animation: shake 0.1s ease;
+			@keyframes shake {
+				0% {
+					transform: translateX(5px);
+				}
+				50% {
+					transform: translateX(-5px);
+				}
+				100% {
+					transform: translateX(0);
+				}
+			}
 		}
 	}
 	.typedWord {
