@@ -1,4 +1,6 @@
-import { useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setRef, setCaretRef } from "store/actions";
 import { State } from "store/reducer";
 import "stylesheets/Test.scss";
 
@@ -6,7 +8,15 @@ export default function Test() {
 	const { typedWord, currWord, timer, wordList, typedHistory } = useSelector(
 		(state: State) => state
 	);
+	const dispatch = useDispatch();
 	const extraLetters = typedWord.slice(currWord.length).split("");
+	const activeWord = useRef<HTMLDivElement>(null);
+	const caretRef = useRef<HTMLSpanElement>(null);
+
+	useEffect(() => {
+		dispatch(setRef(activeWord));
+		dispatch(setCaretRef(caretRef));
+	}, [dispatch]);
 
 	return (
 		<div className="test">
@@ -17,9 +27,10 @@ export default function Test() {
 						<div
 							key={word + idx}
 							className="word"
-							id={currWord === word ? "active" : undefined}>
+							ref={currWord === word ? activeWord : null}>
 							{currWord === word ? (
 								<span
+									ref={caretRef}
 									id="caret"
 									className="blink"
 									style={{

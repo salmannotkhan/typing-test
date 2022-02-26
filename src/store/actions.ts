@@ -1,3 +1,5 @@
+import { RefObject } from "react";
+
 export const SET_WORD = "SETWORD";
 export const SET_CHAR = "SETCHAR";
 export const TIMER_DECREMENT = "TIMERDECREMENT";
@@ -9,6 +11,8 @@ export const PREV_WORD = "PREVWORD";
 export const SET_WORDLIST = "SETWORDLIST";
 export const SET_THEME = "SETTHEME";
 export const SET_TIME = "SETTIME";
+export const SET_REF = "SETREF";
+export const SET_CARET_REF = "SETCARETREF";
 
 export const timerDecrement = () => ({ type: TIMER_DECREMENT });
 export const timerSet = (payload: number) => ({ type: TIMER_SET, payload });
@@ -31,6 +35,13 @@ export const setWordList = (payload: string[]) => ({
 	type: SET_WORDLIST,
 	payload,
 });
-
 export const setTheme = (payload: string) => ({ type: SET_THEME, payload });
 export const setTime = (payload: number) => ({ type: SET_TIME, payload });
+export const setRef = (payload: RefObject<HTMLDivElement>) => ({
+	type: SET_REF,
+	payload,
+});
+export const setCaretRef = (payload: RefObject<HTMLSpanElement>) => ({
+	type: SET_CARET_REF,
+	payload,
+});

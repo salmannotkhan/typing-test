@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { AnyAction } from "redux";
 import {
 	SET_CHAR,
@@ -11,6 +12,8 @@ import {
 	SET_WORDLIST,
 	SET_THEME,
 	SET_TIME,
+	SET_REF,
+	SET_CARET_REF,
 } from "./actions";
 
 export interface State {
@@ -22,6 +25,8 @@ export interface State {
 	timeLimit: number;
 	wordList: string[];
 	typedHistory: string[];
+	activeWordRef: RefObject<HTMLDivElement> | null;
+	caretRef: RefObject<HTMLSpanElement> | null;
 }
 
 export const initialState: State = {
@@ -33,6 +38,8 @@ export const initialState: State = {
 	timeLimit: 0,
 	wordList: [],
 	typedHistory: [],
+	activeWordRef: null,
+	caretRef: null,
 };
 
 export const reducer = (state = initialState, { type, payload }: AnyAction) => {
@@ -92,6 +99,16 @@ export const reducer = (state = initialState, { type, payload }: AnyAction) => {
 				...state,
 				timer: payload,
 				timeLimit: payload,
+			};
+		case SET_REF:
+			return {
+				...state,
+				activeWordRef: payload,
+			};
+		case SET_CARET_REF:
+			return {
+				...state,
+				caretRef: payload,
 			};
 		default:
 			return state;

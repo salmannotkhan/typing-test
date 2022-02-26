@@ -10,9 +10,10 @@ import { startTimer } from "./startTimer";
 
 const handleBackspace = (ctrlKey: boolean) => {
 	const { dispatch, getState } = store;
-	const { typedWord, currWord, wordList, typedHistory } = getState();
+	const { typedWord, currWord, wordList, typedHistory, activeWordRef } =
+		getState();
 	const currIdx = wordList.indexOf(currWord);
-	const currWordEl = document.getElementById("active")!;
+	const currWordEl = activeWordRef?.current!;
 	if (
 		typedWord.length === 0 &&
 		typedHistory[currIdx - 1] !== wordList[currIdx - 1]
@@ -41,7 +42,15 @@ const handleBackspace = (ctrlKey: boolean) => {
 
 export const recordTest = (key: string, ctrlKey: boolean) => {
 	const { dispatch, getState } = store;
-	const { typedWord, currWord, timer, timeLimit, timerId } = getState();
+	const {
+		typedWord,
+		currWord,
+		timer,
+		timeLimit,
+		timerId,
+		activeWordRef,
+		caretRef,
+	} = getState();
 
 	if (timer === 0) {
 		if (key === "Tab") {
@@ -50,11 +59,11 @@ export const recordTest = (key: string, ctrlKey: boolean) => {
 		return;
 	}
 	if (timerId === null && key !== "Tab") startTimer();
-	const currWordEl = document.getElementById("active")!;
+	const currWordEl = activeWordRef?.current!;
 	currWordEl.scrollIntoView({ behavior: "smooth", block: "center" });
-	const caret = document.getElementById("caret")!;
+	const caret = caretRef?.current!;
 	caret.classList.remove("blink");
-	setTimeout(() => caret?.classList.add("blink"), 500);
+	setTimeout(() => caret.classList.add("blink"), 500);
 	switch (key) {
 		case "Tab":
 			if (timer !== timeLimit || timerId) {

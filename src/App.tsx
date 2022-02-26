@@ -11,7 +11,7 @@ import { setTimerId, setWordList } from "store/actions";
 import { recordTest } from "helpers/recordTest";
 
 export default function App() {
-	const { timerId, currWord, typedWord, timer } = useSelector(
+	const { timerId, currWord, typedWord, timer, activeWordRef } = useSelector(
 		(state: State) => state
 	);
 	const dispatch = useDispatch();
@@ -35,20 +35,20 @@ export default function App() {
 
 	useEffect(() => {
 		let idx = typedWord.length - 1;
-		const currWordEl = document.getElementById("active")!;
+		const currWordEl = activeWordRef?.current!;
 		if (currWordEl) {
 			currWordEl.children[idx + 1].classList.add(
 				currWord[idx] !== typedWord[idx] ? "wrong" : "right"
 			);
 		}
-	}, [currWord, typedWord]);
+	}, [currWord, typedWord, activeWordRef]);
 
 	useEffect(() => {
 		let idx = typedWord.length;
-		const currWordEl = document.getElementById("active")!;
+		const currWordEl = activeWordRef?.current!;
 		if (idx < currWord.length)
 			currWordEl.children[idx + 1].classList.remove("wrong", "right");
-	}, [currWord.length, typedWord]);
+	}, [currWord.length, typedWord, activeWordRef]);
 
 	useEffect(() => {
 		if (timer === 0 && timerId) {
