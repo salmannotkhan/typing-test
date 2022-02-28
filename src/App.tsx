@@ -46,7 +46,7 @@ export default function App() {
 	useEffect(() => {
 		let idx = typedWord.length;
 		const currWordEl = activeWordRef?.current!;
-		if (idx < currWord.length)
+		if (currWordEl && idx < currWord.length)
 			currWordEl.children[idx + 1].classList.remove("wrong", "right");
 	}, [currWord.length, typedWord, activeWordRef]);
 
