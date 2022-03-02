@@ -30,7 +30,7 @@ const options: Options = {
 		"forest",
 		"rose-milk",
 	],
-	theme: [
+	type: [
 		"words",
 		"sentances",
 	],
