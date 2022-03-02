@@ -9,6 +9,7 @@ import "stylesheets/AnimatedTheme.scss";
 interface Options {
 	time: number[];
 	theme: string[];
+	type: string[];
 }
 
 interface AnimationProps {
@@ -29,6 +30,11 @@ const options: Options = {
 		"forest",
 		"rose-milk",
 	],
+	theme: [
+		"words",
+		"sentances",
+	],
+	
 };
 
 export default function Header() {
