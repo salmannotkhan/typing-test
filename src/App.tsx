@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Result from "components/Result";
-import Test from "components/Test";
-import words from "helpers/words.json";
-import "stylesheets/themes.scss";
 import Header from "components/Header";
+import Test from "components/Test";
+import Result from "components/Result";
 import Footer from "components/Footer";
 import { State } from "store/reducer";
-import { setTimerId, setWordList } from "store/actions";
+import { setTimerId } from "store/actions";
 import { recordTest } from "helpers/recordTest";
+import "stylesheets/themes.scss";
 
 export default function App() {
 	const { timerId, currWord, typedWord, timer, activeWordRef } = useSelector(
@@ -17,7 +16,6 @@ export default function App() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(setWordList(words));
 		window.onkeydown = (e) => {
 			if (
 				e.key.length === 1 ||

@@ -43,23 +43,20 @@ export const initialState: State = {
 };
 
 export const reducer = (state = initialState, { type, payload }: AnyAction) => {
-	var shuffledWordList: string[];
 	switch (type) {
 		case TIMER_DECREMENT:
 			return { ...state, timer: state.timer - 1 };
 		case TIMER_SET:
 			return { ...state, timer: payload };
-		case TIMER_RESET:
-			shuffledWordList = state.wordList.sort(() => Math.random() - 0.5);
+		case TIMER_RESET: {
 			return {
 				...state,
 				timer: state.timeLimit,
-				currWord: shuffledWordList[0],
 				typedWord: "",
 				timerId: null,
-				wordList: shuffledWordList,
 				typedHistory: [],
 			};
+		}
 		case TIMERID_SET:
 			return { ...state, timerId: payload };
 		case SET_CHAR:
@@ -85,13 +82,23 @@ export const reducer = (state = initialState, { type, payload }: AnyAction) => {
 					state.typedHistory.length - 1
 				),
 			};
-		case SET_WORDLIST:
-			shuffledWordList = payload.sort(() => Math.random() - 0.5);
+		case SET_WORDLIST: {
+			const areNotWords = payload.every((word: string) =>
+				word.includes(" ")
+			);
+			var shuffledWordList: string[] = payload.sort(
+				() => Math.random() - 0.5
+			);
+			if (areNotWords)
+				shuffledWordList = payload.flatMap((token: string) =>
+					token.split(" ")
+				);
 			return {
 				...state,
 				currWord: shuffledWordList[0],
 				wordList: shuffledWordList,
 			};
+		}
 		case SET_THEME:
 			return { ...state, theme: payload };
 		case SET_TIME:

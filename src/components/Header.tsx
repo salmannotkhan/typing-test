@@ -1,7 +1,7 @@
 import { resetTest } from "helpers/resetTest";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme, setTime } from "store/actions";
+import { setTheme, setTime, setWordList } from "store/actions";
 import { State } from "store/reducer";
 import "stylesheets/Header.scss";
 import "stylesheets/AnimatedTheme.scss";
@@ -40,6 +40,9 @@ export default function Header() {
 	useEffect(() => {
 		const theme = localStorage.getItem("theme") || "default";
 		const time = parseInt(localStorage.getItem("time") || "60", 10);
+		import(`helpers/words.json`).then((words) =>
+			dispatch(setWordList(words.default))
+		);
 		dispatch(setTime(time));
 		dispatch(setTheme(theme));
 	}, [dispatch]);

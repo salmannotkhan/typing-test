@@ -1,7 +1,7 @@
-import { resetTimer } from "store/actions";
+import { resetTimer, setWordList } from "store/actions";
 import { store } from "store/store";
 
-export const resetTest = () => {
+export const resetTest = async () => {
 	const { dispatch, getState } = store;
 	const { timerId } = getState();
 	document
@@ -10,5 +10,8 @@ export const resetTest = () => {
 	if (timerId) {
 		clearInterval(timerId);
 	}
+	import(`helpers/words.json`).then((words) =>
+		dispatch(setWordList(words.default))
+	);
 	dispatch(resetTimer());
 };

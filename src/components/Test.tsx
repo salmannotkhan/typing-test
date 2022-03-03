@@ -23,12 +23,14 @@ export default function Test() {
 			<div className="timer">{timer}</div>
 			<div className="box">
 				{wordList.map((word, idx) => {
+					const isActive =
+						currWord + wordList.indexOf(currWord) === word + idx;
 					return (
 						<div
 							key={word + idx}
 							className="word"
-							ref={currWord === word ? activeWord : null}>
-							{currWord === word ? (
+							ref={isActive ? activeWord : null}>
+							{isActive ? (
 								<span
 									ref={caretRef}
 									id="caret"
