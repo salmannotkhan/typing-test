@@ -32,7 +32,7 @@ const options: Options = {
 	],
 	type: [
 		"words",
-		"sentances",
+		"sentences",
 	],
 	
 };
