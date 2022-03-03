@@ -13,6 +13,7 @@ export const SET_THEME = "SETTHEME";
 export const SET_TIME = "SETTIME";
 export const SET_REF = "SETREF";
 export const SET_CARET_REF = "SETCARETREF";
+export const SET_TYPE = "SETTYPE";
 
 export const timerDecrement = () => ({ type: TIMER_DECREMENT });
 export const timerSet = (payload: number) => ({ type: TIMER_SET, payload });
@@ -43,5 +44,9 @@ export const setRef = (payload: RefObject<HTMLDivElement>) => ({
 });
 export const setCaretRef = (payload: RefObject<HTMLSpanElement>) => ({
 	type: SET_CARET_REF,
+	payload,
+});
+export const setType = (payload: string) => ({
+	type: SET_TYPE,
 	payload,
 });

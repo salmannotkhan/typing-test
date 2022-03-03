@@ -1,7 +1,7 @@
 import { resetTest } from "helpers/resetTest";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme, setTime, setWordList } from "store/actions";
+import { setTheme, setTime, setType, setWordList } from "store/actions";
 import { State } from "store/reducer";
 import "stylesheets/Header.scss";
 import "stylesheets/AnimatedTheme.scss";
@@ -30,25 +30,25 @@ const options: Options = {
 		"forest",
 		"rose-milk",
 	],
-	type: [
-		"words",
-		"sentences",
-	],
-	
+	type: ["words", "sentences"],
 };
 
 export default function Header() {
-	const { timerId, timeLimit, theme } = useSelector((state: State) => state);
+	const { timerId, timeLimit, theme, type } = useSelector(
+		(state: State) => state
+	);
 	const [animationProps, setAnimationProps] =
 		useState<AnimationProps | null>();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const theme = localStorage.getItem("theme") || "default";
+		const type = localStorage.getItem("type") || "words";
 		const time = parseInt(localStorage.getItem("time") || "60", 10);
-		import(`helpers/words.json`).then((words) =>
+		import(`helpers/${type}.json`).then((words) =>
 			dispatch(setWordList(words.default))
 		);
+		dispatch(setType(type));
 		dispatch(setTime(time));
 		dispatch(setTheme(theme));
 	}, [dispatch]);
@@ -71,11 +71,24 @@ export default function Header() {
 			document
 				.querySelector(`button[value="${timeLimit}"]`)
 				?.classList.add("selected");
-
 			dispatch(setTime(timeLimit));
 			localStorage.setItem("time", `${timeLimit}`);
 		}
 	}, [dispatch, timeLimit]);
+
+	// Set Type
+	useEffect(() => {
+		if (type !== "") {
+			document
+				.querySelector(`button[value="${type}"]`)
+				?.classList.add("selected");
+			dispatch(setType(type));
+			localStorage.setItem("type", type);
+			import(`helpers/${type}.json`).then((words) =>
+				dispatch(setWordList(words.default))
+			);
+		}
+	}, [dispatch, type]);
 
 	const handleOptions = ({ target, clientX, clientY }: React.MouseEvent) => {
 		if (target instanceof HTMLButtonElement && target.dataset.option) {
@@ -100,6 +113,10 @@ export default function Header() {
 					break;
 				case "time":
 					dispatch(setTime(+target.value));
+					resetTest();
+					break;
+				case "type":
+					dispatch(setType(target.value));
 					resetTest();
 					break;
 			}

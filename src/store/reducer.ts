@@ -14,6 +14,7 @@ import {
 	SET_TIME,
 	SET_REF,
 	SET_CARET_REF,
+	SET_TYPE,
 } from "./actions";
 
 export interface State {
@@ -25,6 +26,7 @@ export interface State {
 	timeLimit: number;
 	wordList: string[];
 	typedHistory: string[];
+	type: string;
 	activeWordRef: RefObject<HTMLDivElement> | null;
 	caretRef: RefObject<HTMLSpanElement> | null;
 }
@@ -38,6 +40,7 @@ export const initialState: State = {
 	timeLimit: 0,
 	wordList: [],
 	typedHistory: [],
+	type: "",
 	activeWordRef: null,
 	caretRef: null,
 };
@@ -116,6 +119,11 @@ export const reducer = (state = initialState, { type, payload }: AnyAction) => {
 			return {
 				...state,
 				caretRef: payload,
+			};
+		case SET_TYPE:
+			return {
+				...state,
+				type: payload,
 			};
 		default:
 			return state;
