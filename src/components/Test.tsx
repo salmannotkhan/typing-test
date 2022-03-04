@@ -24,7 +24,9 @@ export default function Test() {
 			<div className="box">
 				{wordList.map((word, idx) => {
 					const isActive =
-						currWord + wordList.indexOf(currWord) === word + idx;
+						currWord +
+							wordList.indexOf(currWord, typedHistory.length) ===
+						word + idx;
 					return (
 						<div
 							key={word + idx}
@@ -44,7 +46,7 @@ export default function Test() {
 							{word.split("").map((char, charId) => {
 								return <span key={char + charId}>{char}</span>;
 							})}
-							{currWord === word
+							{isActive
 								? extraLetters.map((char, charId) => {
 										return (
 											<span

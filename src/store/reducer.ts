@@ -67,7 +67,11 @@ export const reducer = (state = initialState, { type, payload }: AnyAction) => {
 		case SET_WORD:
 			return { ...state, typedHistory: [...state.typedHistory, payload] };
 		case APPEND_TYPED_HISTORY:
-			const nextIdx = state.wordList.indexOf(state.currWord) + 1;
+			const nextIdx =
+				state.wordList.indexOf(
+					state.currWord,
+					state.typedHistory.length
+				) + 1;
 			return {
 				...state,
 				typedWord: "",
