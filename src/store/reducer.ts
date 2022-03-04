@@ -1,12 +1,11 @@
 import { RefObject } from "react";
-import { AnyAction } from "redux";
+import { AnyAction, combineReducers } from "redux";
 import {
 	SET_CHAR,
 	SET_WORD,
 	TIMER_DECREMENT,
 	TIMERID_SET,
 	TIMER_SET,
-	TIMER_RESET,
 	APPEND_TYPED_HISTORY,
 	PREV_WORD,
 	SET_WORDLIST,
@@ -18,50 +17,67 @@ import {
 } from "./actions";
 
 export interface State {
-	theme: string;
-	currWord: string;
-	typedWord: string;
-	timer: number;
-	timerId: NodeJS.Timeout | null;
-	timeLimit: number;
-	wordList: string[];
-	typedHistory: string[];
-	type: string;
-	activeWordRef: RefObject<HTMLDivElement> | null;
-	caretRef: RefObject<HTMLSpanElement> | null;
+	preferences: {
+		theme: string;
+		timeLimit: number;
+		type: string;
+	};
+	word: {
+		currWord: string;
+		typedWord: string;
+		typedHistory: string[];
+		wordList: string[];
+		activeWordRef: RefObject<HTMLDivElement> | null;
+		caretRef: RefObject<HTMLSpanElement> | null;
+	};
+	time: {
+		timer: number;
+		timerId: NodeJS.Timeout | null;
+	};
 }
 
 export const initialState: State = {
-	theme: "",
-	currWord: "",
-	typedWord: "",
-	timer: 1,
-	timerId: null,
-	timeLimit: 0,
-	wordList: [],
-	typedHistory: [],
-	type: "",
-	activeWordRef: null,
-	caretRef: null,
+	preferences: {
+		theme: "",
+		timeLimit: 0,
+		type: "",
+	},
+	word: {
+		currWord: "",
+		typedWord: "",
+		typedHistory: [],
+		wordList: [],
+		activeWordRef: null,
+		caretRef: null,
+	},
+	time: {
+		timer: 1,
+		timerId: null,
+	},
 };
 
-export const reducer = (state = initialState, { type, payload }: AnyAction) => {
+const timerReducer = (
+	state = initialState.time,
+	{ type, payload }: AnyAction
+) => {
 	switch (type) {
 		case TIMER_DECREMENT:
 			return { ...state, timer: state.timer - 1 };
 		case TIMER_SET:
+			console.log(payload);
 			return { ...state, timer: payload };
-		case TIMER_RESET: {
-			return {
-				...state,
-				timer: state.timeLimit,
-				typedWord: "",
-				timerId: null,
-				typedHistory: [],
-			};
-		}
 		case TIMERID_SET:
 			return { ...state, timerId: payload };
+		default:
+			return state;
+	}
+};
+
+const wordReducer = (
+	state = initialState.word,
+	{ type, payload }: AnyAction
+) => {
+	switch (type) {
 		case SET_CHAR:
 			return { ...state, typedWord: payload };
 		case SET_WORD:
@@ -89,7 +105,17 @@ export const reducer = (state = initialState, { type, payload }: AnyAction) => {
 					state.typedHistory.length - 1
 				),
 			};
-		case SET_WORDLIST: {
+		case SET_REF:
+			return {
+				...state,
+				activeWordRef: payload,
+			};
+		case SET_CARET_REF:
+			return {
+				...state,
+				caretRef: payload,
+			};
+		case SET_WORDLIST:
 			const areNotWords = payload.every((word: string) =>
 				word.includes(" ")
 			);
@@ -102,27 +128,27 @@ export const reducer = (state = initialState, { type, payload }: AnyAction) => {
 				);
 			return {
 				...state,
+				typedWord: "",
+				typedHistory: [],
 				currWord: shuffledWordList[0],
 				wordList: shuffledWordList,
 			};
-		}
+		default:
+			return state;
+	}
+};
+
+const preferenceReducer = (
+	state = initialState.preferences,
+	{ type, payload }: AnyAction
+) => {
+	switch (type) {
 		case SET_THEME:
 			return { ...state, theme: payload };
 		case SET_TIME:
 			return {
 				...state,
-				timer: payload,
 				timeLimit: payload,
-			};
-		case SET_REF:
-			return {
-				...state,
-				activeWordRef: payload,
-			};
-		case SET_CARET_REF:
-			return {
-				...state,
-				caretRef: payload,
 			};
 		case SET_TYPE:
 			return {
@@ -133,3 +159,9 @@ export const reducer = (state = initialState, { type, payload }: AnyAction) => {
 			return state;
 	}
 };
+
+export default combineReducers({
+	time: timerReducer,
+	word: wordReducer,
+	preferences: preferenceReducer,
+});

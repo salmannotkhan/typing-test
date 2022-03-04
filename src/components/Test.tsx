@@ -5,9 +5,10 @@ import { State } from "store/reducer";
 import "stylesheets/Test.scss";
 
 export default function Test() {
-	const { typedWord, currWord, timer, wordList, typedHistory } = useSelector(
-		(state: State) => state
-	);
+	const {
+		word: { typedWord, currWord, wordList, typedHistory },
+		time: { timer },
+	} = useSelector((state: State) => state);
 	const dispatch = useDispatch();
 	const extraLetters = typedWord.slice(currWord.length).split("");
 	const activeWord = useRef<HTMLDivElement>(null);

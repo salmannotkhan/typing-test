@@ -10,8 +10,9 @@ import { startTimer } from "./startTimer";
 
 const handleBackspace = (ctrlKey: boolean) => {
 	const { dispatch, getState } = store;
-	const { typedWord, currWord, wordList, typedHistory, activeWordRef } =
-		getState();
+	const {
+		word: { typedWord, currWord, activeWordRef, typedHistory, wordList },
+	} = getState();
 	const currIdx = wordList.indexOf(currWord);
 	const currWordEl = activeWordRef?.current!;
 	if (
@@ -21,17 +22,17 @@ const handleBackspace = (ctrlKey: boolean) => {
 		dispatch(backtrackWord(ctrlKey));
 		currWordEl.previousElementSibling!.classList.remove("right", "wrong");
 		if (ctrlKey) {
-			currWordEl.previousElementSibling!.childNodes.forEach((char) => {
-				if (char instanceof HTMLSpanElement)
+			currWordEl.previousElementSibling!.childNodes.forEach(
+				(char: HTMLSpanElement) => {
 					char.classList.remove("wrong", "right");
-			});
+				}
+			);
 		}
 	} else {
 		if (ctrlKey) {
 			dispatch(setTypedWord(""));
-			currWordEl.childNodes.forEach((char) => {
-				if (char instanceof HTMLSpanElement)
-					char.classList.remove("wrong", "right");
+			currWordEl.childNodes.forEach((char: HTMLSpanElement) => {
+				char.classList.remove("wrong", "right");
 			});
 		} else {
 			const newTypedWord = typedWord.slice(0, typedWord.length - 1);
@@ -43,13 +44,9 @@ const handleBackspace = (ctrlKey: boolean) => {
 export const recordTest = (key: string, ctrlKey: boolean) => {
 	const { dispatch, getState } = store;
 	const {
-		typedWord,
-		currWord,
-		timer,
-		timeLimit,
-		timerId,
-		activeWordRef,
-		caretRef,
+		time: { timer, timerId },
+		word: { typedWord, currWord, activeWordRef, caretRef },
+		preferences: { timeLimit },
 	} = getState();
 
 	if (timer === 0) {

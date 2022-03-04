@@ -10,9 +10,10 @@ import { recordTest } from "helpers/recordTest";
 import "stylesheets/themes.scss";
 
 export default function App() {
-	const { timerId, currWord, typedWord, timer, activeWordRef } = useSelector(
-		(state: State) => state
-	);
+	const {
+		time: { timerId, timer },
+		word: { currWord, typedWord, activeWordRef },
+	} = useSelector((state: State) => state);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

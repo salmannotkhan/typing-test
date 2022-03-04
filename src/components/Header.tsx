@@ -1,7 +1,13 @@
 import { resetTest } from "helpers/resetTest";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme, setTime, setType, setWordList } from "store/actions";
+import {
+	setTheme,
+	setTime,
+	setType,
+	setWordList,
+	timerSet,
+} from "store/actions";
 import { State } from "store/reducer";
 import "stylesheets/Header.scss";
 import "stylesheets/AnimatedTheme.scss";
@@ -34,9 +40,10 @@ const options: Options = {
 };
 
 export default function Header() {
-	const { timerId, timeLimit, theme, type } = useSelector(
-		(state: State) => state
-	);
+	const {
+		preferences: { timeLimit, theme, type },
+		time: { timerId },
+	} = useSelector((state: State) => state);
 	const [animationProps, setAnimationProps] =
 		useState<AnimationProps | null>();
 	const dispatch = useDispatch();
@@ -48,6 +55,7 @@ export default function Header() {
 		import(`helpers/${type}.json`).then((words) =>
 			dispatch(setWordList(words.default))
 		);
+		dispatch(timerSet(time));
 		dispatch(setType(type));
 		dispatch(setTime(time));
 		dispatch(setTheme(theme));

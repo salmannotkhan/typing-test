@@ -27,7 +27,7 @@ interface Contributor {
 
 export default function Footer() {
 	const [contributors, setContributors] = useState<Contributor[]>([]);
-	const { timerId } = useSelector((state: State) => state);
+	const { timerId } = useSelector((state: State) => state.time);
 	const [showList, setShowList] = useState<boolean>(false);
 	useEffect(() => {
 		const URL =

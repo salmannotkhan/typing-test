@@ -4,9 +4,10 @@ import { State } from "store/reducer";
 import "stylesheets/Result.scss";
 
 export default function Result() {
-	const { wordList, typedHistory, currWord, timeLimit } = useSelector(
-		(state: State) => state
-	);
+	const {
+		word: { wordList, typedHistory, currWord },
+		preferences: { timeLimit },
+	} = useSelector((state: State) => state);
 	const spaces = wordList.indexOf(currWord);
 	let correctChars = 0;
 	const result = typedHistory.map(
