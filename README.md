@@ -18,11 +18,15 @@ npm start     # to start local server at `localhost:3000`
 npm run build # to create production build run
 ```
 
-## Got new theme ideas?
+## Got new ideas?
 
-I'll be happy to merge your theme ideas into typing-test. To add new theme:
+Did you know? You can add your theme and wordlist ideas into typing-test.
 
-1. Add theme colors into `src/stylesheets/themes.scss` in following format:
+Here is how you can do it:
+
+### **To add new theme:**
+
+-   Add theme colors into `src/stylesheets/themes.scss` in following format:
 
 ```css
 .theme-name {
@@ -36,12 +40,21 @@ I'll be happy to merge your theme ideas into typing-test. To add new theme:
 > **Note:**  
 > `highlight-color` is used for caret, wrong characters, timer, selected and onhover colors  
 > `forground-color` is used for correctly typed characters  
-> <i>Using hex codes for colors is recommended</i>
+> _Using hex codes for colors is recommended_
 
-2.  Add theme name into `src/components/Header.tsx` in options:
+### **To add new wordlist:**
+
+-   Rename your wordlist as `<wordlist-name>.json` and place it inside `src/wordlists`.
+
+> **Important:**  
+> The JSON file should only contain single array of words/sentences.
+
+### **Adding entry to options**
+
+1. Add your theme/wordlist name into `src/components/Header.tsx` in options:
 
 ```tsx
-const options: Options = {
+export const options: Options = {
 	time: [15, 30, 45, 60, 120],
 	theme: [
 		"default",
@@ -54,12 +67,18 @@ const options: Options = {
 		"rose-milk",
 		<theme-name>
 	],
+	type: ["words", "sentences", <wordlist-name>],
 };
 ```
 
 > **Important:**  
-> theme-name in `themes.scss` and `Header.tsx` should always match otherwise themes won't work
+> The following should be always same:
+>
+> -   wordlist-name in `Header.tsx` and your wordlist file name
+> -   theme-name in `themes.scss` and `Header.tsx`
+>
+> should always match otherwise themes won't work
 
-3. Make a pull request
+2. Make a pull request
 
-4. If it's good enough to merge, I'll merge it
+3. If it's good enough to merge, I'll merge it

@@ -105,9 +105,6 @@ export default function Header() {
 				?.classList.add("selected");
 			dispatch(setType(type));
 			localStorage.setItem("type", type);
-			import(`helpers/${type}.json`).then((words) =>
-				dispatch(setWordList(words.default))
-			);
 			resetTest();
 		}
 	}, [dispatch, type]);
