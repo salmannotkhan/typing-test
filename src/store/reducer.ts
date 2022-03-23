@@ -64,7 +64,6 @@ const timerReducer = (
 		case TIMER_DECREMENT:
 			return { ...state, timer: state.timer - 1 };
 		case TIMER_SET:
-			console.log(payload);
 			return { ...state, timer: payload };
 		case TIMERID_SET:
 			return { ...state, timerId: payload };

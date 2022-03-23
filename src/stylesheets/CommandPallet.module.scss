@@ -1,0 +1,51 @@
+.commandPallet {
+	display: flex;
+	flex-direction: column;
+	width: 25vw;
+	position: fixed;
+	top: 25%;
+	left: 50%;
+	z-index: 999;
+	transform: translateX(-50%);
+	background-color: var(--font-color);
+	color: var(--bg-color);
+	border: 1px solid var(--hl-color);
+	box-shadow: 5px 5px var(--hl-color);
+}
+
+.commandPallet:before {
+	content: "";
+	display: block;
+	height: 105vh;
+	width: 125vw;
+	background-color: var(--fg-color);
+	opacity: 0.6;
+	z-index: -1;
+	position: fixed;
+	top: 0;
+	left: 0;
+	transform: translate(-50%, -25%);
+}
+
+.commandInput {
+	padding: 10px;
+	background-color: inherit;
+	color: inherit;
+	font-family: inherit;
+	font-size: 18px;
+	border: none;
+	outline: none;
+}
+
+.command {
+	text-transform: capitalize;
+	font-weight: 700;
+	padding: 10px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.highlighted {
+	background-color: var(--bg-color);
+	color: var(--font-color);
+}

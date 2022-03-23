@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "components/Header";
 import Test from "components/Test";
@@ -8,6 +8,7 @@ import { State } from "store/reducer";
 import { setTimerId } from "store/actions";
 import { recordTest } from "helpers/recordTest";
 import "stylesheets/themes.scss";
+import CommandPallet from "components/CommandPallet";
 
 export default function App() {
 	const {
@@ -15,10 +16,14 @@ export default function App() {
 		word: { currWord, typedWord, activeWordRef },
 	} = useSelector((state: State) => state);
 	const dispatch = useDispatch();
+	const [showPallet, setShowPallet] = useState(false);
 
 	useEffect(() => {
-		window.onkeydown = (e) => {
-			if (
+		document.onkeydown = (e) => {
+			if (e.ctrlKey && e.key === "k") {
+				setShowPallet((s) => !s);
+				e.preventDefault();
+			} else if (
 				e.key.length === 1 ||
 				e.key === "Backspace" ||
 				e.key === "Tab"
@@ -28,7 +33,7 @@ export default function App() {
 			}
 		};
 		return () => {
-			window.onkeydown = null;
+			document.onkeydown = null;
 		};
 	}, [dispatch]);
 
@@ -59,6 +64,7 @@ export default function App() {
 	return (
 		<>
 			<Header />
+			{showPallet && <CommandPallet setShowPallet={setShowPallet} />}
 			{timer !== 0 ? <Test /> : <Result />}
 			<Footer />
 		</>

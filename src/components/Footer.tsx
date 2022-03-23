@@ -45,6 +45,9 @@ export default function Footer() {
 	return (
 		<div className={`bottom-area ${timerId ? "hidden" : ""}`}>
 			<span className="hint">
+				<kbd>Ctrl</kbd> + <kbd>k</kbd> to open command pallet
+			</span>
+			<span className="hint">
 				<kbd>Tab</kbd> to restart test
 			</span>
 			<footer>
@@ -89,7 +92,7 @@ export default function Footer() {
 						))}
 					</div>
 				) : null}
-				<button onClick={(e) => setShowList(!showList)}>
+				<button onClick={() => setShowList((s) => !s)}>
 					{showList ? "x close" : "{} contributors"}
 				</button>
 			</footer>

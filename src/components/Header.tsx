@@ -12,7 +12,7 @@ import { State } from "store/reducer";
 import "stylesheets/Header.scss";
 import "stylesheets/AnimatedTheme.scss";
 
-interface Options {
+export interface Options {
 	time: number[];
 	theme: string[];
 	type: string[];
@@ -24,7 +24,7 @@ interface AnimationProps {
 	theme: string;
 }
 
-const options: Options = {
+export const options: Options = {
 	time: [15, 30, 45, 60, 120],
 	theme: [
 		"default",
@@ -64,6 +64,10 @@ export default function Header() {
 	// Set Theme
 	useEffect(() => {
 		if (theme) {
+			document.querySelector(".theme")?.childNodes.forEach((el) => {
+				if (el instanceof HTMLButtonElement)
+					el.classList.remove("selected");
+			});
 			document
 				.querySelector(`button[value="${theme}"]`)
 				?.classList.add("selected");
@@ -76,17 +80,26 @@ export default function Header() {
 	// Set Time
 	useEffect(() => {
 		if (timeLimit !== 0) {
+			document.querySelector(".time")?.childNodes.forEach((el) => {
+				if (el instanceof HTMLButtonElement)
+					el.classList.remove("selected");
+			});
 			document
 				.querySelector(`button[value="${timeLimit}"]`)
 				?.classList.add("selected");
 			dispatch(setTime(timeLimit));
 			localStorage.setItem("time", `${timeLimit}`);
+			resetTest();
 		}
 	}, [dispatch, timeLimit]);
 
 	// Set Type
 	useEffect(() => {
 		if (type !== "") {
+			document.querySelector(".type")?.childNodes.forEach((el) => {
+				if (el instanceof HTMLButtonElement)
+					el.classList.remove("selected");
+			});
 			document
 				.querySelector(`button[value="${type}"]`)
 				?.classList.add("selected");
@@ -95,6 +108,7 @@ export default function Header() {
 			import(`helpers/${type}.json`).then((words) =>
 				dispatch(setWordList(words.default))
 			);
+			resetTest();
 		}
 	}, [dispatch, type]);
 
@@ -104,10 +118,6 @@ export default function Header() {
 				target.blur();
 				return;
 			}
-			target.parentElement!.childNodes.forEach((el) => {
-				if (el instanceof HTMLButtonElement)
-					el.classList.remove("selected");
-			});
 			switch (target.dataset.option) {
 				case "theme":
 					setTimeout(() => {
@@ -121,11 +131,9 @@ export default function Header() {
 					break;
 				case "time":
 					dispatch(setTime(+target.value));
-					resetTest();
 					break;
 				case "type":
 					dispatch(setType(target.value));
-					resetTest();
 					break;
 			}
 			target.blur();
