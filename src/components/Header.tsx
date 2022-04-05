@@ -35,6 +35,7 @@ export const options: Options = {
 		"azure",
 		"forest",
 		"rose-milk",
+		"amethyst"
 	],
 	type: ["words", "sentences"],
 };
