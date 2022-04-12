@@ -35,7 +35,7 @@ export const options: Options = {
 		"azure",
 		"forest",
 		"rose-milk",
-		"amethyst"
+		"amethyst",
 	],
 	type: ["words", "sentences"],
 };
@@ -53,7 +53,7 @@ export default function Header() {
 		const theme = localStorage.getItem("theme") || "default";
 		const type = localStorage.getItem("type") || "words";
 		const time = parseInt(localStorage.getItem("time") || "60", 10);
-		import(`helpers/${type}.json`).then((words) =>
+		import(`wordlists/${type}.json`).then((words) =>
 			dispatch(setWordList(words.default))
 		);
 		dispatch(timerSet(time));
