@@ -37,7 +37,7 @@ export const options: Options = {
 		"rose-milk",
 		"amethyst",
 	],
-	type: ["words", "sentences"],
+	type: ["words", "sentences", "numbers"],
 };
 
 export default function Header() {
