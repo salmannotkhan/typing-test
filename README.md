@@ -30,10 +30,10 @@ Here is how you can do it:
 
 ```css
 .theme-name {
-	--bg-color: <background-color here> !important;
-	--font-color: <font-color here> !important;
-	--hl-color: <highlight-color here> !important;
-	--fg-color: <forground-color here> !important;
+    --bg-color: <background-color here> !important;
+    --font-color: <font-color here> !important;
+    --hl-color: <highlight-color here> !important;
+    --fg-color: <forground-color here> !important;
 }
 ```
 

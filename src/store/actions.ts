@@ -18,8 +18,8 @@ export const SET_TYPE = "SETTYPE";
 export const timerDecrement = () => ({ type: TIMER_DECREMENT });
 export const timerSet = (payload: number) => ({ type: TIMER_SET, payload });
 export const setTimerId = (payload: NodeJS.Timer | null) => ({
-	type: TIMERID_SET,
-	payload,
+    type: TIMERID_SET,
+    payload,
 });
 
 // Word Actions
@@ -27,29 +27,29 @@ export const setWord = (payload: string) => ({ type: SET_WORD, payload });
 export const setChar = (payload: string) => ({ type: SET_CHAR, payload });
 export const setTypedWord = (payload: string) => ({ type: SET_CHAR, payload });
 export const appendTypedHistory = () => ({
-	type: APPEND_TYPED_HISTORY,
+    type: APPEND_TYPED_HISTORY,
 });
 export const backtrackWord = (payload: boolean) => ({
-	type: PREV_WORD,
-	payload,
+    type: PREV_WORD,
+    payload,
 });
 export const setWordList = (payload: string[]) => ({
-	type: SET_WORDLIST,
-	payload,
+    type: SET_WORDLIST,
+    payload,
 });
 export const setRef = (payload: RefObject<HTMLDivElement>) => ({
-	type: SET_REF,
-	payload,
+    type: SET_REF,
+    payload,
 });
 export const setCaretRef = (payload: RefObject<HTMLSpanElement>) => ({
-	type: SET_CARET_REF,
-	payload,
+    type: SET_CARET_REF,
+    payload,
 });
 
 // Prefrences Actions
 export const setTheme = (payload: string) => ({ type: SET_THEME, payload });
 export const setTime = (payload: number) => ({ type: SET_TIME, payload });
 export const setType = (payload: string) => ({
-	type: SET_TYPE,
-	payload,
+    type: SET_TYPE,
+    payload,
 });

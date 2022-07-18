@@ -1,71 +1,71 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap");
 
 body {
-	margin: 0;
-	font-family: Inconsolata, monospace;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: Inconsolata, monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html,
 body {
-	height: 100%;
-	width: 100%;
-	scroll-behavior: smooth;
+    height: 100%;
+    width: 100%;
+    scroll-behavior: smooth;
 }
 
 #root {
-	display: flex;
-	height: 100%;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	--bg-color: black;
-	--font-color: lightslategray;
-	--hl-color: orange;
-	--fg-color: #292f34;
-	color: var(--font-color);
-	background-color: var(--bg-color);
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    --bg-color: black;
+    --font-color: lightslategray;
+    --hl-color: orange;
+    --fg-color: #292f34;
+    color: var(--font-color);
+    background-color: var(--bg-color);
 }
 
 button {
-	background-color: var(--bg-color);
-	color: var(--font-color);
-	border: 2px solid var(--font-color);
-	padding: 10px;
-	font-family: Inconsolata, monospace;
-	font-weight: 700;
-	margin: 10px;
-	cursor: pointer;
-	&.mini {
-		font-size: 12pt;
-		border: none;
-		padding: 5px;
-		margin: 0;
-		&.selected {
-			color: var(--hl-color);
-		}
-	}
-	&:hover {
-		color: var(--hl-color);
-		border-color: var(--hl-color);
-	}
+    background-color: var(--bg-color);
+    color: var(--font-color);
+    border: 2px solid var(--font-color);
+    padding: 10px;
+    font-family: Inconsolata, monospace;
+    font-weight: 700;
+    margin: 10px;
+    cursor: pointer;
+    &.mini {
+        font-size: 12pt;
+        border: none;
+        padding: 5px;
+        margin: 0;
+        &.selected {
+            color: var(--hl-color);
+        }
+    }
+    &:hover {
+        color: var(--hl-color);
+        border-color: var(--hl-color);
+    }
 }
 
 a {
-	color: var(--font-color);
-	text-decoration: none;
-	transition: color 0.1s ease;
-	span {
-		font-size: smaller;
-		margin: 2.5px;
-	}
-	&:hover {
-		color: var(--hl-color);
-	}
+    color: var(--font-color);
+    text-decoration: none;
+    transition: color 0.1s ease;
+    span {
+        font-size: smaller;
+        margin: 2.5px;
+    }
+    &:hover {
+        color: var(--hl-color);
+    }
 }
 
 .hidden {
-	opacity: 0;
-	pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
 }
