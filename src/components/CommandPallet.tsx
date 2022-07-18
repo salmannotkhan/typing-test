@@ -17,6 +17,16 @@ export default function CommandPallet(props: Props) {
     const palletTextBox = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
+        document.onclick = () => {
+            props.setShowPallet((s: boolean) => !s);
+            console.log("heere");
+        };
+        return () => {
+            document.onclick = null;
+        };
+    }, [props]);
+
+    useEffect(() => {
         if (!selectedOption) {
             setCommandList(
                 Object.keys(options).filter((option) =>
@@ -76,13 +86,15 @@ export default function CommandPallet(props: Props) {
     };
 
     return (
-        <div className={styles.commandPallet} onKeyDown={handlePalletKeys}>
+        <div
+            className={styles.commandPallet}
+            onKeyDown={handlePalletKeys}
+            onClick={(e) => e.stopPropagation()}>
             <input
                 ref={palletTextBox}
                 type="text"
                 className={styles.commandInput}
                 placeholder="Type to search"
-                onBlur={() => props.setShowPallet(false)}
                 value={palletText}
                 autoFocus
                 onChange={(e) => setPalletText(e.target.value)}
