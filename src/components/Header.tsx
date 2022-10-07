@@ -36,6 +36,7 @@ export const options: Options = {
         "forest",
         "rose-milk",
         "amethyst",
+        "amber",
     ],
     type: ["words", "sentences", "numbers"],
 };
