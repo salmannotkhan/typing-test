@@ -37,10 +37,10 @@ export const options: Options = {
         "rose-milk",
         "amethyst",
         "amber",
-	"terminal",
-	"vscode",
+        "terminal",
+        "vscode",
     ],
-    type: ["words", "sentences", "numbers"],
+    type: ["words", "sentences", "numbers", "GoT"],
 };
 
 export default function Header() {
