@@ -1,70 +1,76 @@
+.default {
+    --bg-color: black;
+    --font-color: lightslategray;
+    --hl-color: orange;
+    --fg-color: #292f34;
+}
+
 .mkbhd {
-    --bg-color: #171717 !important;
-    --font-color: #ededed !important;
-    --hl-color: #da0037 !important;
-    --fg-color: #444444 !important;
+    --bg-color: #171717;
+    --font-color: #ededed;
+    --hl-color: #da0037;
+    --fg-color: #444444;
 }
 
 .mocha {
-    --bg-color: #2d2424 !important;
-    --font-color: #e0c097 !important;
-    --hl-color: #dc521c !important;
-    --fg-color: #5c3d2e !important;
+    --bg-color: #2d2424;
+    --font-color: #e0c097;
+    --hl-color: #dc521c;
+    --fg-color: #5c3d2e;
 }
 
 .coral {
-    --bg-color: #fdd2bf !important;
-    --font-color: #df5e5e !important;
-    --hl-color: #492f10 !important;
-    --fg-color: #e98580 !important;
+    --bg-color: #fdd2bf;
+    --font-color: #df5e5e;
+    --hl-color: #492f10;
+    --fg-color: #e98580;
 }
 
 .ocean {
-    --bg-color: #dddddd !important;
-    --font-color: #125d98 !important;
-    --hl-color: #f5a962 !important;
-    --fg-color: #3c8dad !important;
+    --bg-color: #dddddd;
+    --font-color: #125d98;
+    --hl-color: #f5a962;
+    --fg-color: #3c8dad;
 }
 
 .azure {
-    --bg-color: #383e56 !important;
-    --font-color: #eedad1 !important;
-    --hl-color: #f69e7b !important;
-    --fg-color: #d4b5b0 !important;
+    --bg-color: #383e56;
+    --font-color: #eedad1;
+    --hl-color: #f69e7b;
+    --fg-color: #d4b5b0;
 }
 
 .forest {
-    --bg-color: #334443 !important;
-    --font-color: #fff8df !important;
-    --hl-color: #c6ffc1 !important;
-    --fg-color: #34656d !important;
+    --bg-color: #334443;
+    --font-color: #fff8df;
+    --hl-color: #c6ffc1;
+    --fg-color: #34656d;
 }
 
 .rose-milk {
-    --bg-color: #ffffff !important;
-    --font-color: #111111 !important;
-    --hl-color: #b33838 !important;
-    --fg-color: #3b8792 !important;
+    --bg-color: #ffffff;
+    --font-color: #111111;
+    --hl-color: #b33838;
+    --fg-color: #3b8792;
 }
 
 .amethyst {
-    --bg-color: #e2caea !important;
-    --font-color: #480c51 !important;
-    --hl-color: #ab395f !important;
-    --fg-color: #9774aa !important;
+    --bg-color: #e2caea;
+    --font-color: #480c51;
+    --hl-color: #ab395f;
+    --fg-color: #9774aa;
 }
 
 .amber {
-    --bg-color: #feb204 !important;
-    --font-color: #d53600 !important;
-    --hl-color: #700e01 !important;
-    --fg-color: #ff8503 !important;
+    --bg-color: #feb204;
+    --font-color: #d53600;
+    --hl-color: #700e01;
+    --fg-color: #ff8503;
 }
 
 .terminal {
-    --bg-color: #000000 !important;
-    --font-color: #ffffff !important;
-    --hl-color: #ff0000 !important;
-    --fg-color: #00ff00 !important;
+    --bg-color: #000000;
+    --font-color: #ffffff;
+    --hl-color: #ff0000;
+    --fg-color: #00ff00;
 }
-
