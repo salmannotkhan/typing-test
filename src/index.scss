@@ -20,10 +20,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    --bg-color: black;
-    --font-color: lightslategray;
-    --hl-color: orange;
-    --fg-color: #292f34;
     color: var(--font-color);
     background-color: var(--bg-color);
 }

@@ -28,12 +28,12 @@ Here is how you can do it:
 
 -   Add theme colors into `src/stylesheets/themes.scss` in following format:
 
-```css
+```scss
 .theme-name {
-    --bg-color: <background-color here> !important;
-    --font-color: <font-color here> !important;
-    --hl-color: <highlight-color here> !important;
-    --fg-color: <forground-color here> !important;
+    --bg-color: background-color;
+    --font-color: font-color;
+    --hl-color: highlight-color;
+    --fg-color: forground-color;
 }
 ```
 
