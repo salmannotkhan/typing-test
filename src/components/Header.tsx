@@ -39,8 +39,9 @@ export const options: Options = {
         "amber",
 	"terminal",
 	"vscode",
+        "mountain"
     ],
-    type: ["words", "sentences", "numbers"],
+    type: ["words", "sentences", "numbers", "got"],
 };
 
 export default function Header() {
