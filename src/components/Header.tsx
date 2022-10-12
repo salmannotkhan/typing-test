@@ -40,7 +40,7 @@ export const options: Options = {
 	"terminal",
 	"vscode",
     "mountain",
-    "pink sky"
+    "pink-sky"
     ],
     type: ["words", "sentences", "numbers"],
 };
