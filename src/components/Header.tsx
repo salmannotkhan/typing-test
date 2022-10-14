@@ -39,7 +39,7 @@ export const options: Options = {
         "amber",
 	"terminal",
 	"vscode",
-    "mountain"
+        "mountain"
     ],
     type: ["words", "sentences", "numbers", "got"],
 };
