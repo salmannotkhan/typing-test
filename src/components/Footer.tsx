@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { State } from "store/reducer";
 import "stylesheets/Footer.scss";
+import {VscDebugRestart} from 'react-icons/vsc';
+import { resetTest } from "helpers/resetTest";
 
 interface Contributor {
     avatar_url: string;
@@ -43,8 +45,12 @@ export default function Footer() {
     }, []);
 
     return (
-        <div className={`bottom-area ${timerId ? "hidden" : ""}`}>
-            <span className="hint">
+        <>
+        <span className="restart-span">
+                <button onClick={()=>resetTest()} className="button-restart"><kbd><VscDebugRestart /></kbd></button>
+        </span>
+        <div className={`bottom-area ${timerId ? "hidden": ""}`}>
+            <span className="hint">                
                 <kbd>Ctrl</kbd> + <kbd>k</kbd> to open command pallet
             </span>
             <span className="hint">
@@ -97,5 +103,6 @@ export default function Footer() {
                 </button>
             </footer>
         </div>
+        </>
     );
 }

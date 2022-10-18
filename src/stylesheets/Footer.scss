@@ -73,3 +73,20 @@
         }
     }
 }
+.restart-span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    kbd {
+        background-color: var(--font-color);
+        color: var(--bg-color);
+        padding: 2.5px 5px;
+        margin: 10px;
+        border-radius: 3px;
+        font-size: 9pt;
+    }
+}
+.button-restart {
+    border: none;
+    outline: none;
+}
