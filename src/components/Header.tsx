@@ -37,10 +37,12 @@ export const options: Options = {
         "rose-milk",
         "amethyst",
         "amber",
-	    "terminal",
-	    "vscode",
+	      "terminal",
+	      "vscode",
         "mountain",
+        "pink-sky",
         "red-season"
+
     ],
     type: ["words", "sentences", "numbers", "got"],
 };
