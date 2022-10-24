@@ -91,8 +91,8 @@
 
 
 .red-season {
-    --bg-color:#1e1c1c;
-    --font-color:#e73535;
+    --bg-color: #1e1c1c;
+    --font-color: #e73535;
     --hl-color: #d4d4d4;
     --fg-color: #593b3e;
 }
@@ -102,4 +102,11 @@
     --font-color: #FF79CD;
     --hl-color: #FFDF6B;
     --fg-color: #AA2EE6;
+}
+
+.hacker {
+    --bg-color: #000;
+    --font-color: #00D700;
+    --hl-color: #018701;
+    --fg-color: #00D700;
 }
