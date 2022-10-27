@@ -23,16 +23,21 @@ export default function Result() {
                 <tbody>
                     <tr>
                         <td colSpan={2} align="center">
-                            <h1>{Math.round(wpm) + " wpm"}</h1>
+                            <h1>Speed: {Math.round(wpm) + " wpm"}</h1>
                         </td>
                     </tr>
                     <tr>
-                        <th>Correct Words:</th>
-                        <td>{result.filter((x) => x).length}</td>
+                        <td colSpan={2} align="center">
+                            <h1>Correct Words: {result.filter((x) => x).length}</h1>
+                        </td>
+                        
                     </tr>
-                    <tr className="wrong">
-                        <th>Incorrect Words:</th>
-                        <td>{result.filter((x) => !x).length}</td>
+
+                    <tr>
+                        <td colSpan={2} align="center">
+                            <h1>Incorrect Words: {result.filter((x) => !x).length}</h1>
+                        </td>
+                        
                     </tr>
                     <tr>
                         <td colSpan={2} align="center">

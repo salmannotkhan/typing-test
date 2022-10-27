@@ -1,9 +1,15 @@
 table {
-    font-size: 16pt;
+    font-size: 8pt;
     font-weight: 800;
+    border-style: dashed;
     button {
         font-size: 21pt;
     }
+    border-color: var(--hl-color);
+    width: 650px;
+    height: 20px;
+    margin-left: -20px;
+    
 }
 
 .wrong {
