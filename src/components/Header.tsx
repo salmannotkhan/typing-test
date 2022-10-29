@@ -43,7 +43,7 @@ export const options: Options = {
         "pink-sky",
         "red-season",
     ],
-    type: ["words", "sentences", "numbers", "got", "javascript"],
+    type: ["words", "sentences", "numbers", "got", "javascript", "python"],
 };
 
 export default function Header() {
