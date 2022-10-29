@@ -44,7 +44,7 @@ export const options: Options = {
         "red-season"
 
     ],
-    type: ["words", "sentences", "numbers", "got"],
+    type: ["words", "sentences", "numbers", "got","code"],
 };
 
 export default function Header() {
