@@ -41,10 +41,9 @@ export const options: Options = {
         "vscode",
         "mountain",
         "pink-sky",
-        "red-season"
-
+        "red-season",
     ],
-    type: ["words", "sentences", "numbers", "got"],
+    type: ["words", "sentences", "numbers", "got", "javascript"],
 };
 
 export default function Header() {
