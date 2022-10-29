@@ -1,6 +1,7 @@
 import { resetTest } from "helpers/resetTest";
 import { useSelector } from "react-redux";
 import { State } from "store/reducer";
+import type from "../images/typing.png";
 import "stylesheets/Result.scss";
 
 export default function Result() {
@@ -18,13 +19,19 @@ export default function Result() {
     });
     const wpm = ((correctChars + spaces) * 60) / timeLimit / 5;
     return (
-        <div className="result">
+        <div className="result" style={{ 
+            backgroundImage:  `url(${type})`,
+            width:'360px' ,
+            height:'320px',
+            borderRadius:'10px'
+          }}>
+            
             <table>
                 <tbody>
                     <tr>
-                        <td colSpan={2} align="center">
-                            <h1>{Math.round(wpm) + " wpm"}</h1>
-                        </td>
+                
+                           
+                           <td>{Math.round(wpm) + " WPM"}</td>
                     </tr>
                     <tr>
                         <th>Correct Words:</th>

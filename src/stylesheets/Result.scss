@@ -3,9 +3,11 @@ table {
     font-weight: 800;
     button {
         font-size: 21pt;
+        margin-left: 60%;
+        margin-top: 90%;
     }
+    text-align: left;
+    color: var(--hl-color);
+    padding-left: 2%;
 }
 
-.wrong {
-    color: var(--hl-color);
-}
