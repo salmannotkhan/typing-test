@@ -82,6 +82,5 @@
     "volatile",
     "while",
     "with",
-    "yield",
-    "infer"
+    "yield"
 ]
