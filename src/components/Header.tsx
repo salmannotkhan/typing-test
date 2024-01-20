@@ -45,7 +45,7 @@ export const options: Options = {
     ],
     type: [
         "words",
-        "difficult",
+        "hard-words",
         "sentences",
         "numbers",
         "got",
